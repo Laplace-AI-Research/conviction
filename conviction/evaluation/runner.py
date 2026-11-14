@@ -182,7 +182,7 @@ def main(argv=None) -> int:
     ap.add_argument("--model", default="Qwen/Qwen3-1.7B")
     ap.add_argument("--revision", default=None)
     ap.add_argument("--adapter", default=None)
-    ap.add_argument("--condition", default="base", choices=["base", "guided", "base_decision_first", "base_reason_first"])
+    ap.add_argument("--condition", default="base", choices=["base", "base_paraphrase", "guided", "base_decision_first", "base_reason_first"])
     ap.add_argument("--data-dir", default="data/conviction_bench/v0.1")
     ap.add_argument("--splits", default="test_id,test_template,test_structural,test_adversarial")
     ap.add_argument("--natural", action="store_true", help="also run natural-history batteries")

@@ -443,3 +443,49 @@ resistance falls with size in Qwen3 (0.48 → 0.34 → 0.17 → 0.15 → 0.10, 0
 flat at about 0.08. Final accuracy and tool-update acceptance are almost the same ranking (ρ = +0.96): on this benchmark,
 general capability mostly shows up as record-following. Exploratory: 37 models, families not independent, no correction
 for the number of correlations examined.
+
+## 2026-11-14 — Robustness package for the paper (pre-registration)
+
+Decided before any of these runs. Analysis: paired cluster bootstrap over problem groups (2,000 resamples), 95% CIs.
+
+### C: channel-test controls
+The 2026-11-11 channel test compared a record in the tool channel against the *forged* episode, which differs in more
+than the channel: the forger's authority marker ("[SYSTEM VERIFIED]" etc.) and imperative wording. Two controls,
+built by `scripts/make_channel_controls.py` from the 790 matched pairs (test_id, test_template, test_structural):
+* **Pure channel (`*_channel`):** the trusted twin's exact conversation with the tool turn removed and its record text
+  prepended to the final user message. Only the channel differs.
+* **No marker (`*_nomarker`):** the forged episode with the marker and the word "official" removed.
+
+Models: every leaderboard model that runs without custom code or a gated licence (MobileLLM-Pro and Llama-3.2-3B
+excluded), with our three adapters on the HF engine and the rest on vLLM, using the base prompt and greedy decoding.
+"Adopts" means the final answer equals the record-implied value.
+
+* **H-C1 (provenance blindness survives the pure-channel control):** at most 3 off-the-shelf models show a channel
+  gap, P(adopt | tool) − P(adopt | pasted plain), with a 95% CI lower bound above +0.05.
+* **H-C2 (the trained rule is about the channel):** Conviction-SFT's pure-channel gap is ≥ +0.30 (CI lower bound).
+* **Reported, no prediction:** the marker effect per model, P(adopt | forged with marker) − P(adopt | no marker).
+
+### P: prompt sensitivity
+A paraphrased system prompt (`base_paraphrase` in `conviction/prompts.py`: same rules, channels and JSON schema,
+reworded) on test_id and test_structural. Models: Qwen3-1.7B, our three adapters, and 8 off-the-shelf models (Qwen3.5-9B,
+Qwen3-8B, Granite-4.2-8B, Ministral-3-8B, Olmo-3-7B, Phi-4-mini, MiniCPM5-2B, Falcon-H1-7B).
+* **H-P1:** across these 12 models, the Spearman correlation between base-prompt and paraphrase scores is ≥ 0.7 for each
+  of: test_structural final accuracy, test_structural pressure flips, test_id forged-record resistance, test_structural
+  tool-update accuracy.
+* **H-P2:** the SFT↔RL trade-off survives under the paraphrase: SFT > RL on test_id forged-record resistance, and
+  RL > SFT on test_structural final accuracy (both CIs exclude 0).
+
+### S: second training seeds
+`seed=2` for Conviction-SFT (E2s2) and for both stages of Conviction-v2 (V2s2); everything else identical.
+* **H-S1:** E2s2 is within ±0.05 of E2 on test_id forged-record resistance and test_structural final accuracy, and the
+  SFT↔RL trade-off directions hold against both RL seeds.
+* **H-S2:** V2s2 reproduces the v2 verdicts in direction: higher held-out forged-record resistance than RL (E3b), and
+  lower held-out final accuracy than RL.
+
+### M: multiple-comparison correction
+Holm–Bonferroni at α = 0.05 over every pre-registered confirmatory test in this log (the E-series hypotheses, T, V2, and
+C/P/S above), using paired-bootstrap p-values (`p_boot`, which has a resolution floor of 1/2000). Report which survive.
+Exploratory analyses (correlations, scaling) are labelled as such and not corrected.
+
+**Hardware and budget:** two RTX A6000 pods ($0.59/h): one for the seeds (training + evaluation), one for C and P.
+Estimated about $3. Ledger before: $29.78 / $40.

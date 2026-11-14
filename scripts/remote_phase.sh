@@ -142,6 +142,66 @@ case "$1" in
       fi
       rm -rf "$HF_HOME/hub"   # one model at a time; newer huggingface_hub keeps files in hub/blobs, so clear it all
     done ;;
+  controls)
+    # Channel-test controls (pre-registered 2026-11-14). Episodes from scripts/make_channel_controls.py.
+    # CTRL_MODELS (vLLM) and CTRL_ADAPTERS ("name=adapter[,adapter]" ; HF engine) -> results/C_<name>
+    $RUN scripts/make_channel_controls.py
+    CS=test_id,test_template,test_structural; CD=data/conviction_bench/v0.1_controls; VPY=${BENCH_PY:-$RUN}
+    IFS=',' read -ra MS <<< "${CTRL_MODELS:-}"
+    for m in "${MS[@]}"; do
+      name=C_$(echo "${m#*/}" | tr '.' '_'); echo "=== MODEL_START $m $(date -u +%H:%M:%S)"
+      if $VPY -m conviction.evaluation.runner --engine vllm --model "$m" --condition base --data-dir $CD --splits $CS --max-new-tokens 200 --out results/$name; then
+        echo "=== MODEL_DONE $m $(date -u +%H:%M:%S)"; tar czf /workspace/results_$name.tgz results/$name
+      else echo "=== MODEL_FAIL $m $(date -u +%H:%M:%S)"; fi
+      rm -rf "$HF_HOME/hub"
+    done
+    IFS=';' read -ra AS <<< "${CTRL_ADAPTERS:-}"
+    for spec in "${AS[@]}"; do
+      [ -z "$spec" ] && continue
+      n=${spec%%=*}; a=${spec#*=}; name=C_$n; echo "=== MODEL_START $n $(date -u +%H:%M:%S)"
+      if $RUN -m conviction.evaluation.runner --condition base ${a:+--adapter $a} --data-dir $CD --splits $CS --batch-size 64 --max-new-tokens 200 --out results/$name; then
+        echo "=== MODEL_DONE $n $(date -u +%H:%M:%S)"; tar czf /workspace/results_$name.tgz results/$name
+      else echo "=== MODEL_FAIL $n $(date -u +%H:%M:%S)"; fi
+    done ;;
+  prompt)
+    # Prompt-sensitivity check (pre-registered 2026-11-14): paraphrased system prompt, test_id + test_structural.
+    # PROMPT_MODELS (vLLM) and PROMPT_ADAPTERS ("name=adapter;..." ; HF engine, empty adapter = base) -> results/PP_<name>
+    PS=test_id,test_structural; VPY=${BENCH_PY:-$RUN}
+    IFS=',' read -ra MS <<< "${PROMPT_MODELS:-}"
+    for m in "${MS[@]}"; do
+      name=PP_$(echo "${m#*/}" | tr '.' '_'); echo "=== MODEL_START $m $(date -u +%H:%M:%S)"
+      if $VPY -m conviction.evaluation.runner --engine vllm --model "$m" --condition base_paraphrase --splits $PS --max-new-tokens 200 --out results/$name; then
+        echo "=== MODEL_DONE $m $(date -u +%H:%M:%S)"; tar czf /workspace/results_$name.tgz results/$name
+      else echo "=== MODEL_FAIL $m $(date -u +%H:%M:%S)"; fi
+      rm -rf "$HF_HOME/hub"
+    done
+    IFS=';' read -ra AS <<< "${PROMPT_ADAPTERS:-}"
+    for spec in "${AS[@]}"; do
+      [ -z "$spec" ] && continue
+      n=${spec%%=*}; a=${spec#*=}; name=PP_$n; echo "=== MODEL_START $n $(date -u +%H:%M:%S)"
+      if $RUN -m conviction.evaluation.runner --condition base_paraphrase ${a:+--adapter $a} --splits $PS --batch-size 64 --max-new-tokens 200 --out results/$name; then
+        echo "=== MODEL_DONE $n $(date -u +%H:%M:%S)"; tar czf /workspace/results_$name.tgz results/$name
+      else echo "=== MODEL_FAIL $n $(date -u +%H:%M:%S)"; fi
+    done ;;
+  seeds)
+    # Second training seeds for SFT (E2) and v2 (pre-registered 2026-11-14). seed=2 changes data order/subset,
+    # LoRA init and sampling; everything else identical to the released runs.
+    S=test_id,test_template,test_structural,test_adversarial
+    $RUN -m conviction.training.train_sft --config configs/sft.yaml --override seed=2 output_dir=checkpoints/sft_s2
+    echo SFT_S2_OK
+    mkdir -p results/E2s2_sft && cp checkpoints/sft_s2/train_info.json results/E2s2_sft/
+    $RUN -m conviction.evaluation.runner --condition base --adapter checkpoints/sft_s2/final --splits $S --natural --batch-size 64 --max-new-tokens 200 --out results/E2s2_sft
+    tar czf /workspace/results_E2s2_sft.tgz results/E2s2_sft
+    echo E2S2_DONE
+    $RUN -m conviction.training.train_sft --config configs/sft_light.yaml --override seed=2 output_dir=checkpoints/sft_light_s2
+    mkdir -p results/V2s2 && cp checkpoints/sft_light_s2/train_info.json results/V2s2/sft_light_train_info.json
+    $RUN -m conviction.training.train_grpo --config configs/grpo_v2.yaml --override seed=2 init_adapter=checkpoints/sft_light_s2/final output_dir=checkpoints/grpo_v2_s2
+    echo V2S2_TRAIN_OK
+    cp checkpoints/grpo_v2_s2/train_info.json results/V2s2/
+    $RUN -m conviction.evaluation.runner --condition base --adapter checkpoints/sft_light_s2/final,checkpoints/grpo_v2_s2/final --splits $S --natural --batch-size 64 --max-new-tokens 200 --out results/V2s2
+    tar czf /workspace/results_V2s2.tgz results/V2s2
+    tar czf /workspace/adapters_seeds.tgz checkpoints/sft_s2/final checkpoints/sft_light_s2/final checkpoints/grpo_v2_s2/final
+    echo V2S2_DONE ;;
 esac
 tar czf /workspace/results_$1.tgz results
 echo PHASE_DONE_$1
