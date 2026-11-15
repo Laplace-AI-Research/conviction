@@ -1,0 +1,56 @@
+{
+ "model": "openbmb/MiniCPM5-2B",
+ "revision": null,
+ "adapter": null,
+ "condition": "base_paraphrase",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 2393,
+   "mean_gen_tokens": 45.49477643125783,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 2,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "mean_gen_tokens": 50.937948350071736,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 6,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 32,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_structural",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 2393,
+   "seconds": 17.24083137512207
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "seconds": 21.89831805229187
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 37.77822780609131,
+ "total_seconds": 77.48723077774048,
+ "torch": "2.14.0+cu130",
+ "transformers": "5.20.2",
+ "engine": "vllm",
+ "device": "cuda (vllm)",
+ "python": "3.12.3",
+ "gpu": "NVIDIA L40S"
+}

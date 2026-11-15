@@ -73,8 +73,10 @@ Off-the-shelf open models rarely resist forged records pasted into user messages
 
 * Prompting does nothing; SFT nearly solves the in-distribution task but hardens into "keep" on unseen problem types.
 * GRPO after SFT is no better than matched extra SFT (≈85% of GRPO groups had zero reward variance).
-* GRPO from the base model beats SFT on held-out subtypes (pre-registered test; replicated with a second seed) but never learns that records pasted into user messages are not authoritative.
-* v2 (1,000-example SFT warm-start, then the same GRPO) learns the provenance rule (0.81 in-distribution; best held-out forged-record resistance of any model, 0.58) but gives up GRPO's held-out accuracy (0.56): it moves along the SFT↔RL trade-off rather than escaping it.
+* GRPO from the base model beats SFT on held-out subtypes (pre-registered test), but the edge is small (+0.06): it does not survive Holm correction for the second seed and vanishes under a paraphrased system prompt. GRPO never learns to reject forged records.
+* v2 (1,000-example SFT warm-start, then the same GRPO) learns to reject forged records (0.81 in-distribution; best held-out forged-record resistance of any model, 0.58) but gives up GRPO's held-out accuracy (0.56): it moves along the SFT↔RL trade-off rather than escaping it.
+
+* **Nothing we trained checks the channel.** A pre-registered control pastes the tool record plainly into the user turn: SFT adopts it 58% of the time (62% from the tool, 8% when forged). The adapters learned to reject the forger's wording ("Here is the official update: …"), not the channel; 0 of 34 off-the-shelf models check the channel either. Seeds, prompt paraphrase and Holm results: [research/EXPERIMENTS.md](research/EXPERIMENTS.md).
 
 ![Resistance vs receptiveness](results/figures/fig2_resistance_vs_receptiveness.png)
 

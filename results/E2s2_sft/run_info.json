@@ -1,0 +1,99 @@
+{
+ "model": "Qwen/Qwen3-1.7B",
+ "revision": null,
+ "adapter": "checkpoints/sft_s2/final",
+ "condition": "base",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 2393,
+   "mean_gen_tokens": 60.87797743418303,
+   "max_gen_tokens": 117,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_id_natural": {
+   "episodes": 1027,
+   "mean_gen_tokens": 59.541382667964946,
+   "max_gen_tokens": 131,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_template": {
+   "episodes": 2674,
+   "mean_gen_tokens": 62.212041884816756,
+   "max_gen_tokens": 107,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_template_natural": {
+   "episodes": 1141,
+   "mean_gen_tokens": 60.58545135845749,
+   "max_gen_tokens": 107,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "mean_gen_tokens": 89.7819225251076,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 290,
+   "thinking_unfinished": 0
+  },
+  "test_structural_natural": {
+   "episodes": 1180,
+   "mean_gen_tokens": 75.3271186440678,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 4,
+   "thinking_unfinished": 0
+  },
+  "test_adversarial": {
+   "episodes": 22,
+   "mean_gen_tokens": 53.95454545454545,
+   "max_gen_tokens": 84,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 64,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_template,test_structural,test_adversarial",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 2393,
+   "seconds": 119.74685192108154
+  },
+  "test_template": {
+   "episodes": 2674,
+   "seconds": 127.07766652107239
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "seconds": 250.95910477638245
+  },
+  "test_adversarial": {
+   "episodes": 22,
+   "seconds": 1.841055154800415
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 6.0875444412231445,
+ "total_seconds": 716.8200597763062,
+ "torch": "2.9.1+cu128",
+ "transformers": "5.22.2",
+ "engine": "hf",
+ "device": "cuda:0",
+ "python": "3.12.3",
+ "gpu": "NVIDIA GeForce RTX 5090"
+}

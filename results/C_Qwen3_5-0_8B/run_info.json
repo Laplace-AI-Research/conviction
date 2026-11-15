@@ -1,0 +1,67 @@
+{
+ "model": "Qwen/Qwen3.5-0.8B",
+ "revision": null,
+ "adapter": null,
+ "condition": "base",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 428,
+   "mean_gen_tokens": 63.47196261682243,
+   "max_gen_tokens": 137,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_template": {
+   "episodes": 508,
+   "mean_gen_tokens": 64.89960629921259,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 1,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 644,
+   "mean_gen_tokens": 71.12888198757764,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 5,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 32,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_template,test_structural",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 428,
+   "seconds": 4.686514377593994
+  },
+  "test_template": {
+   "episodes": 508,
+   "seconds": 5.637147903442383
+  },
+  "test_structural": {
+   "episodes": 644,
+   "seconds": 7.974016904830933
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 128.69604349136353,
+ "total_seconds": 147.12032532691956,
+ "torch": "2.14.0+cu130",
+ "transformers": "5.20.2",
+ "engine": "vllm",
+ "device": "cuda (vllm)",
+ "python": "3.12.3",
+ "gpu": "NVIDIA L40S"
+}

@@ -1,0 +1,56 @@
+{
+ "model": "tiiuae/Falcon-H1-7B-Instruct",
+ "revision": null,
+ "adapter": null,
+ "condition": "base_paraphrase",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 2393,
+   "mean_gen_tokens": 58.658169661512744,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 11,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "mean_gen_tokens": 67.10652797704448,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 16,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 32,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_structural",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 2393,
+   "seconds": 144.45017218589783
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "seconds": 177.26198434829712
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 78.53694295883179,
+ "total_seconds": 400.77766823768616,
+ "torch": "2.14.0+cu130",
+ "transformers": "5.20.2",
+ "engine": "vllm",
+ "device": "cuda (vllm)",
+ "python": "3.12.3",
+ "gpu": "NVIDIA L40S"
+}

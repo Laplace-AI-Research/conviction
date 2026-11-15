@@ -489,3 +489,57 @@ Exploratory analyses (correlations, scaling) are labelled as such and not correc
 
 **Hardware and budget:** two RTX A6000 pods ($0.59/h): one for the seeds (training + evaluation), one for C and P.
 Estimated about $3. Ledger before: $29.78 / $40.
+
+## 2026-11-15 — Robustness results (C, P, S, M)
+
+Outputs: `results/comparisons/robustness_C_P_S.json`, `results/comparisons/holm.json`. Cost $4.09 (RTX 5090 for seeds,
+L40S for C and P; the A6000s in the plan were out of stock). Ledger: $33.87 / $40. Every planned model ran: 34
+off-the-shelf models + base + 3 adapters for C (n = 790 pairs each), 12 models for P.
+
+### C: channel controls
+| model | tool | forged | pasted plain | no marker | channel gap (tool − plain) |
+|---|---|---|---|---|---|
+| Conviction-SFT | 0.62 | 0.08 | 0.58 | 0.09 | +0.04 [+0.02, +0.06] |
+| Conviction-v2 | 0.30 | 0.18 | 0.30 | 0.17 | +0.00 [−0.02, +0.03] |
+| Conviction-RL | 0.63 | 0.66 | 0.69 | 0.67 | −0.06 [−0.09, −0.02] |
+| Qwen3-1.7B (base) | 0.25 | 0.30 | 0.35 | 0.28 | −0.10 [−0.13, −0.07] |
+
+(adoption rates, i.e. P(final answer = record-implied value)). Off-the-shelf gaps range from −0.15 (Olmo-3-7B) to
++0.08 (MiniCPM5-2B, CI [+0.05, +0.12]); the marker effect is within ±0.03 for every model.
+
+* **H-C1: supported.** 0 of 34 off-the-shelf models have a channel-gap lower bound above +0.05. 26 of 34 have a
+  *negative* point estimate, and 17 have an upper bound below 0, meaning they adopt the pasted record more often.
+* **H-C2: not supported.** SFT's pure-channel gap is +0.04 (lower bound +0.015, far below the +0.30 threshold).
+  The authority marker isn't the cue either: removing "[SYSTEM VERIFIED]"/"official" leaves SFT's adoption at 0.09.
+  What remains in the forged episode is the forger's framing, "Here is the (official) update: <record>", in place of
+  the record followed by "There's a new record from <service>." **The trained adapters learned to reject the forger's
+  framing, not to check the channel.** This revises the 2026-11-11 reading that SFT's +0.54 tool-vs-forged gap was
+  provenance-checking. The caveat that the plain-paste variant keeps the trusted twin's pointer sentence, which asserts
+  a source, applies to all models equally; it does not rescue a channel rule, since the rule says user text is never a
+  record.
+
+### P: paraphrased system prompt
+* **H-P1: supported.** Spearman ρ between prompts across 12 models: structural accuracy 0.95, flips 0.99, test_id
+  forged resistance 0.93, tool-update accuracy 0.94. Mean absolute shift is 0.02–0.04.
+* **H-P2: half supported, so not supported as pre-registered.** SFT > RL on test_id forged resistance holds
+  (+0.74 [+0.69, +0.78]). RL > SFT on structural final accuracy does not: −0.03 [−0.07, +0.01] under the
+  paraphrase.
+
+### S: second seeds
+* **H-S1: supported.** E2s2 matches E2: test_id forged resistance 0.963 vs 0.963, structural accuracy 0.583 vs 0.580.
+  The trade-off holds against both RL seeds.
+* **H-S2: supported.** V2s2 structural forged resistance 0.561 (V2 0.578, RL 0.315); structural accuracy 0.540
+  (V2 0.560, RL 0.644).
+
+### M: Holm–Bonferroni
+32 tests with a bootstrap p-value: 18 significant raw, **13 after Holm**. Lost after correction: H5 (E3 − E2) on
+test_template final accuracy, fabricated-evidence resistance and insufficient accuracy, and on test_structural
+insufficient accuracy; H5′ replication (E6 − E2, second RL seed) on structural final accuracy (p_holm = 0.072).
+H-C2's Holm test (gap > 0) survives, but the pre-registered criterion is the +0.30 bound, which fails.
+
+### What changes
+1. The headline "no off-the-shelf model checks the channel" is now confirmed with the confounds removed.
+2. "SFT learns the provenance rule" is wrong as stated. SFT learns to reject forged-record framing; nothing we trained
+   checks the channel. Public text is being corrected.
+3. RL's held-out accuracy edge over SFT (+0.06) is fragile: it survives Holm for seed 1 only, not for seed 2, and
+   vanishes under the paraphrase. The robust SFT↔RL difference is forged-framing rejection (SFT ≫ RL).

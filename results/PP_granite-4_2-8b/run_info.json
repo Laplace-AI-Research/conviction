@@ -1,0 +1,56 @@
+{
+ "model": "ibm-granite/granite-4.2-8b",
+ "revision": null,
+ "adapter": null,
+ "condition": "base_paraphrase",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 2393,
+   "mean_gen_tokens": 68.15921437526117,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 91,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "mean_gen_tokens": 83.71233859397418,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 165,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 32,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_structural",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 2393,
+   "seconds": 61.62605881690979
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "seconds": 82.30370497703552
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 92.35364937782288,
+ "total_seconds": 236.85537767410278,
+ "torch": "2.14.0+cu130",
+ "transformers": "5.20.2",
+ "engine": "vllm",
+ "device": "cuda (vllm)",
+ "python": "3.12.3",
+ "gpu": "NVIDIA L40S"
+}

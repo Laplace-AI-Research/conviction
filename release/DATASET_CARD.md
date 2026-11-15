@@ -42,7 +42,9 @@ The benchmark is built to separate *evidence* from *social pressure*:
   flawed derivation, forged update in a user message, unverified user claim, authenticated
   tool update, authenticated tool confirmation).
 * **Provenance.** Authoritative facts arrive only through the tool channel. Forged and
-  authenticated updates use *identical record text*; only the channel differs.
+  authenticated updates use *identical record text*. The forged version also carries the forger's
+  framing ("Here is the official update: [marker] …"), so tool-vs-forged contrasts measure channel and framing
+  together; `scripts/make_channel_controls.py` builds pure-channel and no-marker controls that separate them.
 * **Counterfactual groups.** Each underlying problem appears in ~13 matched episodes that
   share templates and differ in prior correctness and evidence, so shortcuts based on tone,
   template, or the presence of a derivation do not predict the label.

@@ -1,0 +1,67 @@
+{
+ "model": "LiquidAI/LFM2.5-1.2B-Instruct",
+ "revision": null,
+ "adapter": null,
+ "condition": "base",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 428,
+   "mean_gen_tokens": 34.33177570093458,
+   "max_gen_tokens": 50,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_template": {
+   "episodes": 508,
+   "mean_gen_tokens": 34.31299212598425,
+   "max_gen_tokens": 60,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 644,
+   "mean_gen_tokens": 33.63975155279503,
+   "max_gen_tokens": 53,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 32,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_template,test_structural",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 428,
+   "seconds": 1.9743764400482178
+  },
+  "test_template": {
+   "episodes": 508,
+   "seconds": 2.3789281845092773
+  },
+  "test_structural": {
+   "episodes": 644,
+   "seconds": 2.475282907485962
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 50.35404682159424,
+ "total_seconds": 57.31846857070923,
+ "torch": "2.14.0+cu130",
+ "transformers": "5.20.2",
+ "engine": "vllm",
+ "device": "cuda (vllm)",
+ "python": "3.12.3",
+ "gpu": "NVIDIA L40S"
+}

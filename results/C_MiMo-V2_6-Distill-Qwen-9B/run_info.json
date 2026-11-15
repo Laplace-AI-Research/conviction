@@ -1,0 +1,67 @@
+{
+ "model": "XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B",
+ "revision": null,
+ "adapter": null,
+ "condition": "base",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 428,
+   "mean_gen_tokens": 53.08644859813084,
+   "max_gen_tokens": 116,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_template": {
+   "episodes": 508,
+   "mean_gen_tokens": 54.074803149606296,
+   "max_gen_tokens": 141,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 644,
+   "mean_gen_tokens": 59.47670807453416,
+   "max_gen_tokens": 145,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 32,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_template,test_structural",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 428,
+   "seconds": 21.616021156311035
+  },
+  "test_template": {
+   "episodes": 508,
+   "seconds": 26.671359300613403
+  },
+  "test_structural": {
+   "episodes": 644,
+   "seconds": 32.86346483230591
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 172.35581421852112,
+ "total_seconds": 253.65745759010315,
+ "torch": "2.14.0+cu130",
+ "transformers": "5.20.2",
+ "engine": "vllm",
+ "device": "cuda (vllm)",
+ "python": "3.12.3",
+ "gpu": "NVIDIA L40S"
+}

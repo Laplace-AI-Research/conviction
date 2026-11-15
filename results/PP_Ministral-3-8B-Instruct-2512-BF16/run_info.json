@@ -1,0 +1,56 @@
+{
+ "model": "mistralai/Ministral-3-8B-Instruct-2512-BF16",
+ "revision": null,
+ "adapter": null,
+ "condition": "base_paraphrase",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 2393,
+   "mean_gen_tokens": 61.309235269536146,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 9,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "mean_gen_tokens": 70.86692969870874,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 27,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 32,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_structural",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 2393,
+   "seconds": 48.60508942604065
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "seconds": 62.86078381538391
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 58.605568647384644,
+ "total_seconds": 170.35950303077698,
+ "torch": "2.14.0+cu130",
+ "transformers": "5.20.2",
+ "engine": "vllm",
+ "device": "cuda (vllm)",
+ "python": "3.12.3",
+ "gpu": "NVIDIA L40S"
+}

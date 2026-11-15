@@ -1,0 +1,67 @@
+{
+ "model": "nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16",
+ "revision": null,
+ "adapter": null,
+ "condition": "base",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 428,
+   "mean_gen_tokens": 33.99766355140187,
+   "max_gen_tokens": 56,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_template": {
+   "episodes": 508,
+   "mean_gen_tokens": 34.438976377952756,
+   "max_gen_tokens": 75,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 644,
+   "mean_gen_tokens": 33.90527950310559,
+   "max_gen_tokens": 49,
+   "hit_max_new_tokens": 0,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 32,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_template,test_structural",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 428,
+   "seconds": 11.767555236816406
+  },
+  "test_template": {
+   "episodes": 508,
+   "seconds": 14.03125286102295
+  },
+  "test_structural": {
+   "episodes": 644,
+   "seconds": 17.297733545303345
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 126.06626844406128,
+ "total_seconds": 169.63147401809692,
+ "torch": "2.14.0+cu130",
+ "transformers": "5.20.2",
+ "engine": "vllm",
+ "device": "cuda (vllm)",
+ "python": "3.12.3",
+ "gpu": "NVIDIA L40S"
+}

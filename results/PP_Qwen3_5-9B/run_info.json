@@ -1,0 +1,56 @@
+{
+ "model": "Qwen/Qwen3.5-9B",
+ "revision": null,
+ "adapter": null,
+ "condition": "base_paraphrase",
+ "decoding": {
+  "do_sample": false,
+  "temperature": null,
+  "top_p": null,
+  "top_k": null,
+  "seed": 0,
+  "max_new_tokens": 200,
+  "enable_thinking": false
+ },
+ "groups_per_split": 0,
+ "sample_seed": 20261110,
+ "generation_stats": {
+  "test_id": {
+   "episodes": 2393,
+   "mean_gen_tokens": 65.03928123694108,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 41,
+   "thinking_unfinished": 0
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "mean_gen_tokens": 77.36047345767575,
+   "max_gen_tokens": 200,
+   "hit_max_new_tokens": 100,
+   "thinking_unfinished": 0
+  }
+ },
+ "batch_size": 32,
+ "dtype": "bfloat16",
+ "splits": "test_id,test_structural",
+ "limit_groups": null,
+ "timing": {
+  "test_id": {
+   "episodes": 2393,
+   "seconds": 128.83717465400696
+  },
+  "test_structural": {
+   "episodes": 2788,
+   "seconds": 161.67485880851746
+  }
+ },
+ "oom_splits": [],
+ "load_seconds": 90.34780669212341,
+ "total_seconds": 381.5000660419464,
+ "torch": "2.14.0+cu130",
+ "transformers": "5.20.2",
+ "engine": "vllm",
+ "device": "cuda (vllm)",
+ "python": "3.12.3",
+ "gpu": "NVIDIA L40S"
+}

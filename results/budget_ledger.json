@@ -159,6 +159,27 @@
    "note": "B3 pod B RTX A6000 secure fexn2uv21nqrbz: 13 models, vLLM; ~06:48-10:25 UTC (idle 09:13-10:25, watcher bug)",
    "time": 1794392741.518688,
    "kind": "manual"
+  },
+  {
+   "phase": "robustness",
+   "cost": 1.07,
+   "note": "Seeds pod RTX 5090 community 5nu7tgptfoe39e ($0.69/h): E2s2 + V2s2 train/eval; ~21:45-23:18 UTC 2026-11-14",
+   "time": 1794702320.041836,
+   "kind": "manual"
+  },
+  {
+   "phase": "robustness",
+   "cost": 3.0,
+   "note": "Evals pod L40S ehc3adlt0k0tjm ($1.09/h): channel controls (38 models) + paraphrase (12); ~21:45-00:30 UTC",
+   "time": 1794702320.041836,
+   "kind": "manual"
+  },
+  {
+   "phase": "robustness",
+   "cost": 0.02,
+   "note": "L40 x2wsmz7t8vrok7 on CUDA 12.8 host, deleted after ~1 min",
+   "time": 1794702320.041836,
+   "kind": "manual"
   }
  ],
  "open": null
