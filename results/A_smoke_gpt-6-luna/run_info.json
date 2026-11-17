@@ -1,0 +1,44 @@
+{
+ "track": "api",
+ "status": "complete",
+ "provider": "openai",
+ "model": "gpt-6-luna",
+ "base_url": null,
+ "effort": null,
+ "temperature": null,
+ "extra_request_fields": null,
+ "max_output_tokens": 16000,
+ "condition": "base",
+ "splits": "test_structural",
+ "groups_per_split": 2,
+ "sample_seed": 20261110,
+ "natural": true,
+ "data_dir": "data/conviction_bench/v0.1",
+ "tool_channel": "native provider tool calls (convert.py)",
+ "prices_usd_per_mtok": {
+  "input": 0.1,
+  "output": 0.5
+ },
+ "usage_new": {
+  "input_tokens": 16072,
+  "output_tokens": 4884,
+  "calls": 41,
+  "cached_responses": 0,
+  "usd": 0.004
+ },
+ "stop_reasons_new": {
+  "completed": 41
+ },
+ "timing": {
+  "test_structural": {
+   "episodes": 29,
+   "seconds": 41.22761392593384
+  }
+ },
+ "total_seconds": 41.23131489753723,
+ "python": "3.12.13",
+ "sdk": {
+  "anthropic": "2.8.0",
+  "openai": "3.49.0"
+ }
+}
