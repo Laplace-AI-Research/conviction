@@ -23,6 +23,9 @@
 \setlist{itemsep=2pt,topsep=3pt}
 \emergencystretch=1.5em
 
+\hypersetup{pdftitle={ConvictionBench: Evidence-Sensitive Belief Revision in Language Models},
+  pdfauthor={Arya Somu},pdfsubject={Preprint},
+  pdfkeywords={sycophancy, belief revision, provenance, benchmark, GRPO, SFT}}
 \input{tables/numbers.tex}
 
 \definecolor{csft}{HTML}{2a78d6}
@@ -36,7 +39,7 @@
 
 \title{\bench: Evidence-Sensitive Belief Revision in Language Models}
 \author{Arya Somu\\[2pt]\normalsize\url{https://convictionbench.org}}
-\date{}
+\date{\normalsize Preprint, November 2026 \quad·\quad ConvictionBench v0.1}
 
 \begin{document}
 \maketitle
@@ -52,7 +55,7 @@ find that pressure-flip rates on held-out problems range from \nshelfFlipMin{} t
 \emph{no} model distinguishes the tool channel from a plain paste of the same record (0 of \nchanN{} under a
 pre-registered control); larger models follow records more and resist forged ones less. Thinking mode lowers
 pressure flips but also lowers forged-record resistance. We then train Qwen3-1.7B with prompting, SFT, SFT followed
-by GRPO, a matched continued-SFT control, GRPO alone, and a light-SFT-then-GRPO recipe, for about \$\ngpuUSD{} of
+by GRPO, a matched continued-SFT control, GRPO alone, and a light-SFT-then-GRPO recipe, for \$\ngpuUSD{} of
 rented GPU time in total. Prompting does nothing. SFT nearly solves the in-distribution task but hardens into
 ``keep'' on unseen problem types, accepting valid corrections of its own errors in only 7\% of cases.
 GRPO after SFT is no better than more SFT, because SFT leaves almost no reward variance. GRPO alone stays
@@ -509,8 +512,10 @@ conditions, and natural-history correction metrics with small $n$ (12--54).
 seeing earlier results; each was pre-registered before it ran, and the order is recorded in the experiment log.
 \item \textbf{Evaluation details vary across models} (GPU type, batch size, HF versus vLLM); the parity gate bounds
 the engine effect at 0.017 on the checked metrics. Two models needed custom code and an older \texttt{transformers}.
-\item \textbf{Human validation.} \todo{Report agreement and label accuracy from the 160-item human validation
-(\texttt{research/validation/}); until then, label correctness rests on the solvers and their unit tests.}
+\item \textbf{No human validation yet.} Labels come from exact solvers covered by unit tests, and the response
+format and ledger rendering were revised on validation evidence before freezing, but no human has yet reviewed a sample
+of episodes for ambiguity or naturalness. A 160-item review is prepared (\texttt{research/validation/}) and will
+accompany v0.2.
 \end{itemize}
 
 \section{Conclusion}

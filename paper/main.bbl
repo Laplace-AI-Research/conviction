@@ -1,0 +1,215 @@
+\begin{thebibliography}{31}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Chu et~al.(2025)Chu, Zhai, Yang, et~al.]{chu2025sft}
+Tianzhe Chu, Yuexiang Zhai, Jihan Yang, et~al.
+\newblock {SFT} memorizes, {RL} generalizes: A comparative study of foundation
+  model post-training.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, 2025.
+\newblock arXiv:2501.17161.
+
+\bibitem[{DeepSeek-AI}(2025)]{deepseek2025r1}
+{DeepSeek-AI}.
+\newblock {DeepSeek-R1}: Incentivizing reasoning capability in {LLMs} via
+  reinforcement learning.
+\newblock \emph{Nature}, 645:\penalty0 633--638, 2025.
+\newblock arXiv:2501.12948.
+
+\bibitem[Efron and Tibshirani(1993)]{efron1993bootstrap}
+Bradley Efron and Robert~J. Tibshirani.
+\newblock \emph{An Introduction to the Bootstrap}.
+\newblock Chapman \& Hall, 1993.
+
+\bibitem[Fanous et~al.(2025)Fanous, Goldberg, et~al.]{fanous2025syceval}
+Aaron Fanous, Jacob Goldberg, et~al.
+\newblock {SycEval}: Evaluating {LLM} sycophancy.
+\newblock \emph{arXiv preprint arXiv:2502.08177}, 2025.
+
+\bibitem[Greshake et~al.(2023)Greshake, Abdelnabi, Mishra, Endres, Holz, and
+  Fritz]{greshake2023injection}
+Kai Greshake, Sahar Abdelnabi, Shailesh Mishra, Christoph Endres, Thorsten
+  Holz, and Mario Fritz.
+\newblock Not what you've signed up for: Compromising real-world
+  {LLM}-integrated applications with indirect prompt injection.
+\newblock In \emph{Proceedings of the 16th ACM Workshop on Artificial
+  Intelligence and Security}, 2023.
+\newblock arXiv:2302.12173.
+
+\bibitem[Holm(1979)]{holm1979simple}
+Sture Holm.
+\newblock A simple sequentially rejective multiple test procedure.
+\newblock \emph{Scandinavian Journal of Statistics}, 6\penalty0 (2):\penalty0
+  65--70, 1979.
+
+\bibitem[Hong et~al.(2025)Hong, Byun, Kim, Shu, and Choi]{hong2025sycon}
+Jiseung Hong, Grace Byun, Seungone Kim, Kai Shu, and Jinho~D. Choi.
+\newblock Measuring sycophancy of language models in multi-turn dialogues.
+\newblock \emph{arXiv preprint arXiv:2505.23840}, 2025.
+
+\bibitem[Hu et~al.(2022)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and
+  Chen]{hu2022lora}
+Edward~J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean
+  Wang, Lu~Wang, and Weizhu Chen.
+\newblock {LoRA}: Low-rank adaptation of large language models.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2022.
+\newblock arXiv:2106.09685.
+
+\bibitem[Huang et~al.(2024)Huang, Chen, Mishra, Zheng, Yu, Song, and
+  Zhou]{huang2024selfcorrect}
+Jie Huang, Xinyun Chen, Swaroop Mishra, Huaixiu~Steven Zheng, Adams~Wei Yu,
+  Xinying Song, and Denny Zhou.
+\newblock Large language models cannot self-correct reasoning yet.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2024.
+\newblock arXiv:2310.01798.
+
+\bibitem[Kirichenko et~al.(2025)Kirichenko, Ibrahim, Chaudhuri, and
+  Bell]{kirichenko2025abstention}
+Polina Kirichenko, Mark Ibrahim, Kamalika Chaudhuri, and Samuel~J. Bell.
+\newblock {AbstentionBench}: Reasoning {LLMs} fail on unanswerable questions.
+\newblock In \emph{NeurIPS Datasets and Benchmarks Track}, 2025.
+\newblock arXiv:2506.09038.
+
+\bibitem[Kumar et~al.(2025)Kumar, Zhuang, Agarwal, et~al.]{kumar2024score}
+Aviral Kumar, Vincent Zhuang, Rishabh Agarwal, et~al.
+\newblock Training language models to self-correct via reinforcement learning.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2025.
+\newblock arXiv:2409.12917.
+
+\bibitem[Kwon et~al.(2023)Kwon, Li, Zhuang, et~al.]{kwon2023vllm}
+Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, et~al.
+\newblock Efficient memory management for large language model serving with
+  {PagedAttention}.
+\newblock In \emph{Proceedings of the 29th Symposium on Operating Systems
+  Principles (SOSP)}, 2023.
+\newblock arXiv:2309.06180.
+
+\bibitem[Laban et~al.(2023)Laban, Murakhovs'ka, Xiong, and Wu]{laban2023sure}
+Philippe Laban, Lidiya Murakhovs'ka, Caiming Xiong, and Chien-Sheng Wu.
+\newblock Are you sure? challenging {LLMs} leads to performance drops in the
+  {FlipFlop} experiment.
+\newblock \emph{arXiv preprint arXiv:2311.08596}, 2023.
+
+\bibitem[Lambert et~al.(2024)Lambert, Morrison, Pyatkin,
+  et~al.]{lambert2024tulu3}
+Nathan Lambert, Jacob Morrison, Valentina Pyatkin, et~al.
+\newblock {T\"ulu} 3: Pushing frontiers in open language model post-training.
+\newblock \emph{arXiv preprint arXiv:2411.15124}, 2024.
+
+\bibitem[Liu et~al.(2025)Liu, Chen, Li, et~al.]{liu2025drgrpo}
+Zichen Liu, Changyu Chen, Wenjun Li, et~al.
+\newblock Understanding {R1-Zero}-like training: A critical perspective.
+\newblock \emph{arXiv preprint arXiv:2503.20783}, 2025.
+
+\bibitem[Mirzadeh et~al.(2024)Mirzadeh, Alizadeh, Shahrokhi, Tuzel, Bengio, and
+  Farajtabar]{mirzadeh2024gsmsymbolic}
+Iman Mirzadeh, Keivan Alizadeh, Hooman Shahrokhi, Oncel Tuzel, Samy Bengio, and
+  Mehrdad Farajtabar.
+\newblock {GSM-Symbolic}: Understanding the limitations of mathematical
+  reasoning in large language models.
+\newblock \emph{arXiv preprint arXiv:2410.05229}, 2024.
+
+\bibitem[Perez et~al.(2022)Perez, Ringer, Luko{\v{s}}i{\=u}t{\.e},
+  et~al.]{perez2022discovering}
+Ethan Perez, Sam Ringer, Kamil{\.e} Luko{\v{s}}i{\=u}t{\.e}, et~al.
+\newblock Discovering language model behaviors with model-written evaluations.
+\newblock \emph{arXiv preprint arXiv:2212.09251}, 2022.
+
+\bibitem[{Qwen Team}(2025)]{qwen2025qwen3}
+{Qwen Team}.
+\newblock Qwen3 technical report.
+\newblock \emph{arXiv preprint arXiv:2505.09388}, 2025.
+
+\bibitem[Shao et~al.(2026)Shao, Li, Xin, et~al.]{shao2026spurious}
+Rulin Shao, Shuyue~Stella Li, Rui Xin, et~al.
+\newblock Spurious rewards: Rethinking training signals in {RLVR}.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, 2026.
+\newblock arXiv:2506.10947.
+
+\bibitem[Shao et~al.(2024)Shao, Wang, Zhu, et~al.]{shao2024deepseekmath}
+Zhihong Shao, Peiyi Wang, Qihao Zhu, et~al.
+\newblock {DeepSeekMath}: Pushing the limits of mathematical reasoning in open
+  language models.
+\newblock \emph{arXiv preprint arXiv:2402.03300}, 2024.
+
+\bibitem[Sharma et~al.(2023)Sharma, Tong, Korbak, et~al.]{sharma2023towards}
+Mrinank Sharma, Meg Tong, Tomasz Korbak, et~al.
+\newblock Towards understanding sycophancy in language models.
+\newblock \emph{arXiv preprint arXiv:2310.13548}, 2023.
+
+\bibitem[Stengel-Eskin et~al.(2025)Stengel-Eskin, Hase, and
+  Bansal]{stengeleskin2025pbt}
+Elias Stengel-Eskin, Peter Hase, and Mohit Bansal.
+\newblock Teaching models to balance resisting and accepting persuasion.
+\newblock In \emph{Proceedings of NAACL}, 2025.
+\newblock arXiv:2410.14596.
+
+\bibitem[von Werra et~al.(2020)von Werra, Belkada, Tunstall,
+  et~al.]{vonwerra2020trl}
+Leandro von Werra, Younes Belkada, Lewis Tunstall, et~al.
+\newblock {TRL}: Transformer reinforcement learning.
+\newblock \url{https://github.com/huggingface/trl}, 2020.
+
+\bibitem[Wallace et~al.(2024)Wallace, Xiao, Leike, Weng, Heidecke, and
+  Beutel]{wallace2024hierarchy}
+Eric Wallace, Kai Xiao, Reimar Leike, Lilian Weng, Johannes Heidecke, and Alex
+  Beutel.
+\newblock The instruction hierarchy: Training {LLMs} to prioritize privileged
+  instructions.
+\newblock \emph{arXiv preprint arXiv:2404.13208}, 2024.
+
+\bibitem[Wang et~al.(2023)Wang, Yue, and Sun]{wang2023defend}
+Boshi Wang, Xiang Yue, and Huan Sun.
+\newblock Can {ChatGPT} defend its belief in truth? evaluating {LLM} reasoning
+  via debate.
+\newblock In \emph{Findings of EMNLP}, 2023.
+\newblock arXiv:2305.13160.
+
+\bibitem[Wei et~al.(2023)Wei, Huang, Lu, Zhou, and Le]{wei2023simple}
+Jerry Wei, Da~Huang, Yifeng Lu, Denny Zhou, and Quoc~V. Le.
+\newblock Simple synthetic data reduces sycophancy in large language models.
+\newblock \emph{arXiv preprint arXiv:2308.03958}, 2023.
+
+\bibitem[Xie et~al.(2024)Xie, Zhang, Chen, Lou, and Su]{xie2024chameleon}
+Jian Xie, Kai Zhang, Jiangjie Chen, Renze Lou, and Yu~Su.
+\newblock Adaptive chameleon or stubborn sloth: Revealing the behavior of large
+  language models in knowledge conflicts.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2024.
+\newblock arXiv:2305.13300.
+
+\bibitem[Xu et~al.(2024)Xu, Lin, Yang, et~al.]{xu2024earth}
+Rongwu Xu, Brian~S. Lin, Shujian Yang, et~al.
+\newblock The earth is flat because...: Investigating {LLMs}' belief towards
+  misinformation via persuasive conversation.
+\newblock In \emph{Proceedings of ACL}, 2024.
+\newblock arXiv:2312.09085.
+
+\bibitem[Yu et~al.(2025)Yu, Zhang, Zhu, et~al.]{yu2025dapo}
+Qiying Yu, Zheng Zhang, Ruofei Zhu, et~al.
+\newblock {DAPO}: An open-source {LLM} reinforcement learning system at scale.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2025.
+\newblock arXiv:2503.14476.
+
+\bibitem[Zeng et~al.(2024)Zeng, Lin, Zhang, Yang, Jia, and Shi]{zeng2024johnny}
+Yi~Zeng, Hongpeng Lin, Jingwen Zhang, Diyi Yang, Ruoxi Jia, and Weiyan Shi.
+\newblock How johnny can persuade {LLMs} to jailbreak them: Rethinking
+  persuasion to challenge {AI} safety by humanizing {LLMs}.
+\newblock In \emph{Proceedings of ACL}, 2024.
+\newblock arXiv:2401.06373.
+
+\bibitem[Zhang et~al.(2024)Zhang, Diao, Lin, et~al.]{zhang2024rtuning}
+Hanning Zhang, Shizhe Diao, Yong Lin, et~al.
+\newblock {R-Tuning}: Instructing large language models to say `{I} don't
+  know'.
+\newblock In \emph{Proceedings of NAACL}, 2024.
+\newblock arXiv:2311.09677.
+
+\end{thebibliography}

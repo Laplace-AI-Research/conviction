@@ -266,13 +266,22 @@ def table_channel(rows):
     (OUT_TAB / "channel.tex").write_text("\n".join(body + [r"\bottomrule", r"\end{tabular}"]) + "\n")
 
 
+HOLM_LABELS = {  # internal run names -> the names the paper uses
+    "H5 (E3 − E2)": r"SFT$\to$GRPO $-$ SFT", "H5′ (E3b − E2)": r"RL $-$ SFT (seed 1)",
+    "H5′ replication (E6 − E2)": r"RL $-$ SFT (seed 2)", "H-T": r"Thinking on $-$ off",
+    "H-V2a (V2 − E3b)": r"v2 $-$ RL", "H-C2 (SFT pure-channel gap)": r"SFT channel gap",
+    "H-P2 (SFT − RL, paraphrase)": r"SFT $-$ RL (paraphrase)",
+}
+
+
 def table_holm():
     H = jl(R / "comparisons" / "holm.json")
     body = [r"\begin{tabular}{llcccc}", r"\toprule",
             r"Hypothesis & Test & $\Delta$ [95\% CI] & $p$ & $p_\text{Holm}$ & Holm \\", r"\midrule"]
     for row in H["rows"]:
         test = row["test"].replace("_", r"\_")
-        hyp = row["hypothesis"].replace("−", "$-$").replace("′", "$'$").replace("_", r"\_").replace("→", r"$\to$")
+        hyp = HOLM_LABELS.get(row["hypothesis"].split(" (")[0] if row["hypothesis"].startswith("H-T") else row["hypothesis"],
+                             row["hypothesis"])
         d = {"diff": row["diff"], "lo": row["lo"], "hi": row["hi"]}
         mark = r"\checkmark" if row["significant_holm"] else ("(raw only)" if row["significant_raw"] else "")
         pv = "$<$0.001" if row["p"] < 0.001 else f"{row['p']:.3f}"
@@ -494,7 +503,7 @@ def fig_thinking():
 
 
 def fig_dynamics():
-    runs = [("E3_grpo", "SFT$\\to$GRPO (E3)", C_SFT), ("E3b_grpo_base", "GRPO only, seed 1", C_RL),
+    runs = [("E3_grpo", "SFT$\\to$GRPO", C_SFT), ("E3b_grpo_base", "GRPO only, seed 1", C_RL),
             ("E6_grpo_base_s2", "GRPO only, seed 2", "#f2a17f"), ("V2", "v2 (light SFT$\\to$GRPO)", C_V2)]
     series = [("reward", "Mean reward"), ("frac_reward_zero_std", "Zero-variance groups"),
               ("completions/mean_length", "Completion length (tokens)")]

@@ -12,8 +12,9 @@ rewards (0.89 / 0.66 / 0.53 / 0.20), the pre-freeze response-format A/B (0.19 â†
 `results/comparisons/holm.json`).
 
 ## Before posting
-- [ ] Human validation: fill the Limitations TODO (search `\todo`) with agreement and label accuracy for the 160 items.
-- [ ] Spot-check the bib entries not yet verified online (listed at the top of `refs.bib`).
-- [ ] Decide whether to keep the GPT API-track appendix (currently Appendix G).
+- [x] Human validation stated as a limitation (planned for v0.2).
+- [x] All bib entries verified online (2026-11-17).
+- [x] GPT API-track results kept as Appendix G.
+- [ ] After every rebuild, copy `main.pdf` to `~/dev/convictionbench/paper.pdf` and `~/dev/arpjw.github.io/papers/convictionbench.pdf`.
 - [ ] arXiv: build with `tectonic -X compile --keep-intermediates main.tex` to get `main.bbl`, then upload `main.tex`,
       `main.bbl`, `tables/`, `figures/`; pick categories (cs.CL primary, cs.LG).

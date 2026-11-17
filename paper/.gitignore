@@ -1,0 +1,5 @@
+# LaTeX intermediates (main.bbl is kept for the arXiv upload)
+*.aux
+*.log
+*.out
+*.blg
