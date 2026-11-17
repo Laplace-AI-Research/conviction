@@ -1,0 +1,19 @@
+\begin{tabular}{lccccccccc}
+\toprule
+ & \multicolumn{4}{c}{In-distribution (\texttt{test\_id})} & \multicolumn{5}{c}{Held-out subtypes (\texttt{test\_structural})} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-10}
+Condition & Final & Flip$\downarrow$ & Forged & Insuff. & Final & Flip$\downarrow$ & Corr. & Update & Forged \\
+\midrule
+Base (Qwen3-1.7B) & 0.445 & 0.470 & 0.248 & 0.355 & 0.424 & 0.536 & 0.937 & 0.301 & 0.340 \\
++ guidance prompt & 0.449 & 0.453 & 0.226 & 0.293 & 0.433 & 0.526 & 0.937 & 0.306 & 0.360 \\
+\addlinespace[2pt]
++ SFT & 0.939 & 0.039 & 0.963 & 0.963 & 0.580 & 0.389 & 0.857 & 0.339 & 0.531 \\
++ SFT $\to$ GRPO & 0.952 & \textbf{0.025} & 0.970 & 0.968 & 0.606 & 0.374 & 0.851 & 0.352 & 0.582 \\
++ SFT $\to$ more SFT (control) & \textbf{0.970} & 0.028 & \textbf{0.980} & \textbf{0.985} & 0.612 & 0.361 & 0.880 & 0.333 & \textbf{0.589} \\
+\addlinespace[2pt]
++ GRPO only (seed 1) & 0.679 & 0.304 & 0.191 & 0.566 & \textbf{0.644} & \textbf{0.348} & \textbf{0.926} & \textbf{0.591} & 0.315 \\
++ GRPO only (seed 2) & 0.698 & 0.282 & 0.218 & 0.529 & 0.642 & 0.373 & 0.920 & 0.589 & 0.304 \\
+\addlinespace[2pt]
++ light SFT $\to$ GRPO (v2) & 0.787 & 0.110 & 0.806 & 0.727 & 0.560 & 0.375 & \textbf{0.926} & 0.188 & 0.578 \\
+\bottomrule
+\end{tabular}
