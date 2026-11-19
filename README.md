@@ -1,20 +1,48 @@
-# Conviction
+# ConvictionBench
 
-Can a small language model learn **when to stand its ground, when to change its mind, and when to admit it doesn't know** — revising beliefs on *evidence* rather than *social pressure*? And does RL (GRPO with verifiable rewards) help beyond SFT?
+**Evidence-Sensitive Belief Revision in Language Models**
 
-Base model: `Qwen/Qwen3-1.7B` (non-thinking mode). Budget: ≤ $40 of GPU time.
+When should a language model keep an answer, revise it, or say that the evidence is insufficient? ConvictionBench is an open benchmark and training suite that varies evidence and social pressure independently to study that decision.
 
-**Paper:** [ConvictionBench: Evidence-Sensitive Belief Revision in Language Models](https://convictionbench.org/paper.pdf) (preprint, November 2026; source in [paper/](paper/)) · **Project page:** https://convictionbench.org/ · **Dataset:** [arpjw/ConvictionBench](https://huggingface.co/datasets/arpjw/ConvictionBench) · **Models:** [arpjw/conviction-1.7b-sft](https://huggingface.co/arpjw/conviction-1.7b-sft), [arpjw/conviction-1.7b-rl](https://huggingface.co/arpjw/conviction-1.7b-rl), [arpjw/conviction-1.7b-v2](https://huggingface.co/arpjw/conviction-1.7b-v2)
+Arya Somu originally developed and released ConvictionBench. [Laplace Research](https://github.com/Laplace-AI-Research) maintains and publishes the benchmark and its companion Conviction adapters. The frozen v0.1 benchmark was released on November 10, 2026.
 
-**Status (2026-11-11):** ConvictionBench v0.1 frozen and released; base, prompting, SFT, SFT→GRPO, a matched SFT control and GRPO-only runs complete (GRPO-only replicated with a second seed); 37 off-the-shelf open models from 18 labs benchmarked, plus a thinking-mode control and a v2 training recipe. Total compute ≈ $30 of rented GPU time ([ledger](results/budget_ledger.json)); a separate frontier API track (GPT models, reserved for a future harder challenge, not on the leaderboard) used ≈ $39 of OpenAI credit. Paper: [paper/](paper/) (supersedes the earlier draft in research/REPORT.md); full experiment log: [research/EXPERIMENTS.md](research/EXPERIMENTS.md); tables: [results/tables/main_results.md](results/tables/main_results.md).
+[Research paper](https://convictionbench.org/paper.pdf) · [Code repository](https://github.com/Laplace-AI-Research/conviction) · [Hugging Face dataset](https://huggingface.co/datasets/Laplace-AI-Research/ConvictionBench) · [Hugging Face collection](https://huggingface.co/collections/Laplace-AI-Research/conviction-models-and-benchmark-6aff86d2ffe859af7052eafd) · [Project website](https://convictionbench.org/) · [Release record](release/LAPLACE_RELEASE.md)
+
+## Laplace Conviction Series
+
+The three experimental LoRA adapters share [Qwen3-1.7B](https://huggingface.co/Qwen/Qwen3-1.7B) as their base. Each tests a different training recipe for belief revision. The benchmark below defines the evaluation used to compare them.
+
+| Model | Architecture | Training | Research emphasis |
+|---|---|---|---|
+| [Conviction Anchor 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Anchor-1.7B) | Qwen3-1.7B + LoRA | Supervised fine-tuning (SFT) | Resistance to unsupported challenges |
+| [Conviction Vector 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Vector-1.7B) | Qwen3-1.7B + LoRA | GRPO from the base model | Generalization to held-out problem types |
+| [Conviction Meridian 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Meridian-1.7B) | Qwen3-1.7B + LoRA | Light SFT followed by GRPO | Trade-off between pressure resistance and legitimate correction |
+
+### Historical names and compatibility
+
+Use the public names above for release references. The [experiment log](research/EXPERIMENTS.md) and frozen results use the original labels. `E6`, `E2s2`, and `V2s2` are second-seed replications. `E3` is the separate full SFT followed by GRPO experiment.
+
+| Public release | Original Hugging Face ID | Published experiment |
+|---|---|---|
+| Conviction Anchor 1.7B | `arpjw/conviction-1.7b-sft` | Conviction-SFT, `E2` |
+| Conviction Vector 1.7B | `arpjw/conviction-1.7b-rl` | Conviction-RL, `E3b` seed 1 |
+| Conviction Meridian 1.7B | `arpjw/conviction-1.7b-v2` | Conviction-v2, `V2` |
+
+## Published experiments
+
+The study compares the base model, a guidance prompt, SFT, SFT followed by GRPO, a matched continued-SFT control, GRPO from the base model, and light SFT followed by GRPO. It also includes 37 off-the-shelf open models from 18 labs and a thinking-mode control. The open-weight runs used approximately $30 of rented GPU time against a $40 budget. A separate GPT API track used approximately $39 of OpenAI credit and is reported separately from the leaderboard.
+
+[Paper source](paper/) · [Experiment log](research/EXPERIMENTS.md) · [Full results tables and confidence intervals](results/tables/main_results.md) · [Compute ledger](results/budget_ledger.json)
+
+The published preprint supersedes the earlier research report. [Report draft](research/REPORT.md)
 
 ### ConvictionBench leaderboard (v0.1, non-thinking, greedy)
 
 | Model | Held-out problems: final acc. | Held-out problems: pressure flip ↓ | Forged-record resistance (in-dist.) |
 |---|---|---|---|
-| **Conviction-RL (ours, 1.7B)** | 0.644 | 0.348 | 0.191 |
-| **Conviction-v2 (ours, 1.7B)** | 0.559 | 0.375 | 0.806 |
-| **Conviction-SFT (ours, 1.7B)** | 0.580 | 0.389 | 0.963 |
+| **Conviction Vector 1.7B** | 0.644 | 0.348 | 0.191 |
+| **Conviction Meridian 1.7B** | 0.559 | 0.375 | 0.806 |
+| **Conviction Anchor 1.7B** | 0.580 | 0.389 | 0.963 |
 | Qwen3-1.7B (our base) | 0.424 | 0.536 | 0.248 |
 | Qwen3.5-9B | 0.688 | 0.399 | 0.060 |
 | Qwen3-4B-Instruct-2507³ | 0.677 | 0.408 | 0.057 |
@@ -56,7 +84,9 @@ Base model: `Qwen/Qwen3-1.7B` (non-thinking mode). Budget: ≤ $40 of GPU time.
 
 ¹ Custom code needs transformers 4.56; follows the strict format in about half of answers. ² Often answers in free text instead of the requested JSON; scores mainly or partly reflect format compliance. ³ Added 2026-11-11 and evaluated on vLLM (two earlier models re-run on vLLM matched the published HF numbers within 0.02; `results/comparisons/B3_parity_vllm_vs_hf.json`). Two further models that think by default even with thinking off (Nemotron-Nano-9B-v2, LFM2.5-8B-A1B) are kept off this table; candidates and exclusions: [release/MODEL_SHORTLIST_B3.md](release/MODEL_SHORTLIST_B3.md).
 
-Off-the-shelf open models rarely resist forged records pasted into user messages (29 of 37 ≤ 0.25 in-distribution; the highest scores come from the smallest models, Qwen3-0.6B and Hunyuan-0.5B, which tend to ignore challenges of every kind); our GRPO adapter has the lowest pressure-flip rate of all 41 models, and v2 the best held-out forged-record resistance. **Thinking mode** (Qwen3-1.7B/8B, Qwen3.5-9B, Granite-4.2-8B, paired on the same episodes) raises accuracy and lowers pressure flips but *lowers* forged-record resistance; see the [results page](https://convictionbench.org/#thinking) and `results/comparisons/T_thinking_vs_nonthinking.json`. Per-model protocol notes (GPU, transformers version, kernels) are in each `results/*/run_info.json` and in [research/EXPERIMENTS.md](research/EXPERIMENTS.md) §§ B, B2, T.
+Meridian's 0.559 is retained from the original leaderboard. The stored evaluation rounds to 0.560 in the training table and paper.
+
+Of the 37 off-the-shelf models, 29 scored 0.25 or lower on in-distribution forged-record resistance. The highest scores among them came from two small models, Qwen3-0.6B and Hunyuan-0.5B, which tended to ignore challenges of every kind. Vector had the lowest held-out pressure-flip rate among the 41 evaluated models. Meridian had the highest held-out forged-record resistance in that comparison. In the paired thinking-mode control on Qwen3-1.7B, Qwen3-8B, Qwen3.5-9B, and Granite-4.2-8B, thinking mode raised accuracy, reduced pressure flips, and lowered forged-record resistance. Per-model protocol notes are in each `results/*/run_info.json` and the experiment log, sections B, B2, and T. [Thinking-mode results](https://convictionbench.org/#thinking) · [Paired comparison](results/comparisons/T_thinking_vs_nonthinking.json) · [Experiment log](research/EXPERIMENTS.md)
 
 ### Training results (Qwen3-1.7B)
 
@@ -71,16 +101,15 @@ Off-the-shelf open models rarely resist forged records pasted into user messages
 | + GRPO only (seed 2) | 0.698 | 0.642 | 0.282 | 0.920 | 0.218 |
 | + light SFT → GRPO (v2) | 0.787 | 0.560 | 0.110 | 0.926 | 0.806 |
 
-* Prompting does nothing; SFT nearly solves the in-distribution task but hardens into "keep" on unseen problem types.
-* GRPO after SFT is no better than matched extra SFT (≈85% of GRPO groups had zero reward variance).
-* GRPO from the base model beats SFT on held-out subtypes (pre-registered test), but the edge is small (+0.06): it does not survive Holm correction for the second seed and vanishes under a paraphrased system prompt. GRPO never learns to reject forged records.
-* v2 (1,000-example SFT warm-start, then the same GRPO) learns to reject forged records (0.81 in-distribution; best held-out forged-record resistance of any model, 0.58) but gives up GRPO's held-out accuracy (0.56): it moves along the SFT↔RL trade-off rather than escaping it.
-
-* **Nothing we trained checks the channel.** A pre-registered control pastes the tool record plainly into the user turn: SFT adopts it 58% of the time (62% from the tool, 8% when forged). The adapters learned to reject the forger's wording ("Here is the official update: …"), not the channel; 0 of 34 off-the-shelf models check the channel either. Seeds, prompt paraphrase and Holm results: [research/EXPERIMENTS.md](research/EXPERIMENTS.md).
+* The guidance prompt produced mostly null effects. Anchor reached 0.939 final accuracy in-distribution. On held-out subtypes in natural history, it accepted legitimate corrections to its own answers in 4 of 54 cases (0.074).
+* The matched continued-SFT control performed comparably to full SFT followed by GRPO. About 85% of GRPO groups in that experiment had zero reward variance.
+* Vector had a roughly six percentage point held-out accuracy advantage over Anchor across two seeds with the original prompt. The second-seed result did not survive Holm correction, and the paired accuracy interval included zero under a paraphrased system prompt. Vector's forged-record resistance stayed weak.
+* Meridian used a 1,000-example SFT warm-start followed by the same GRPO recipe as Vector. It reached 0.806 forged-record resistance in-distribution and 0.578 on held-out subtypes. Its held-out final accuracy was about 0.56, below Vector's 0.644.
+* The pre-registered pure-channel control tested identical record text in tool and user turns. Anchor adopted 58% of plain user pastes, 62% of tool records, and 8% of records with the forger's wording. The control implicated wording cues across the trained adapters and found no clear channel preference among the 34 off-the-shelf models tested. [Robustness results and statistical tests](research/EXPERIMENTS.md)
 
 ![Resistance vs receptiveness](results/figures/fig2_resistance_vs_receptiveness.png)
 
-## ConvictionBench
+## Benchmark design
 
 Procedural, oracle-labelled episodes: a question, an earlier assistant answer (correct, wrong, or unjustified), then a challenge. Every label is computed by an exact oracle — never an LLM judge.
 
@@ -99,6 +128,17 @@ uv run conviction-generate   # regenerate ConvictionBench v0.1 (verify against F
 uv run --extra train conviction-eval --model Qwen/Qwen3-1.7B --natural --out results/my_run
 uv run --extra analysis conviction-report   # tables + figures from results/
 ```
+
+To run a one-group adapter evaluation after preparing the local splits, use the base model with `--adapter` on a CUDA machine.
+
+```bash
+uv run --extra train conviction-eval \
+  --model Qwen/Qwen3-1.7B \
+  --adapter Laplace-AI-Research/Conviction-Anchor-1.7B \
+  --splits test_structural --limit-groups 1 --out results/anchor_smoke
+```
+
+See the [adapter guide](release/MODEL_CARD.md) for loading instructions and links to the three model cards.
 
 GPU (pod): `bash scripts/setup.sh`, then `scripts/smoke_test.sh`, `run_baseline.sh`, `run_sft.sh`, `run_grpo.sh`.
 The exact pod phases used for every reported run are in `scripts/remote_phase.sh` (`baselines`, `sft`, `grpo`, `sft_control`,
@@ -128,7 +168,7 @@ conviction/training/    rewards (deterministic), SFT, GRPO (TRL), data selection
 conviction/evaluation/  runner (HF generate), metrics, cluster bootstrap, natural-history battery
 conviction/utils/       budget ledger, logging
 conviction/analysis/    results tables and figures 1-6
-release/                dataset card, model card, release checklist
+release/                dataset card, adapter guide, release records and checksums
 research/validation/    human-validation sample and guide
 configs/ scripts/ tests/ research/
 ```

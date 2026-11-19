@@ -2,23 +2,21 @@
 license: apache-2.0
 base_model: Qwen/Qwen3-1.7B
 library_name: peft
+datasets: [Laplace-AI-Research/ConvictionBench]
 tags: [lora, sycophancy, belief-revision, grpo, sft, convictionbench]
 ---
 
-# conviction-1.7b
+# Laplace Conviction Series
 
-LoRA adapters for **Qwen/Qwen3-1.7B** (non-thinking mode) trained to revise answers on
-*evidence* — valid corrections and authenticated tool records — rather than social pressure,
-and to say when the available information is insufficient. Trained and evaluated on
-[ConvictionBench v0.1](https://huggingface.co/datasets/arpjw/ConvictionBench). Base model © Qwen team, Apache-2.0.
+Arya Somu originally developed and released these experimental LoRA adapters. Laplace Research maintains and publishes them. They use Qwen3-1.7B in non-thinking mode and study when a model keeps an answer, accepts a correction, or reports insufficient evidence. The base model is by the Qwen team and uses Apache-2.0. [ConvictionBench v0.1 dataset](https://huggingface.co/datasets/Laplace-AI-Research/ConvictionBench) · [Base model](https://huggingface.co/Qwen/Qwen3-1.7B)
 
-Two variants are released because their trade-offs are the main finding of the accompanying
-report. Both are r = 16 LoRA adapters on all linear layers (17.4M trainable parameters):
+Use the individual Hugging Face cards for each adapter's training, evaluation, and reproducibility details. All three use rank-16 LoRA with linear-layer targets (17.4 million trainable parameters).
 
-| Variant | Recipe | Strengths | Weaknesses |
+| Model | Experiment | Recipe | Measured trade-off |
 |---|---|---|---|
-| `conviction-1.7b-sft` (E2) | SFT on 4,000 oracle reference responses | Near-ceiling in-distribution; resists forged in-message records (0.96); abstains correctly (0.96) | On unseen problem types becomes stubborn about its own wrong answers (accepts corrections 7% of the time in natural history) |
-| `conviction-1.7b-rl` (E3b) | GRPO from base, deterministic reward, 200 steps | Best on held-out subtypes (final acc. 0.644); keeps accepting valid corrections (0.93; 0.73 in natural history) | Does not learn the provenance rule (forged-record resistance ≈ base, 0.19); weaker abstention (0.57) and in-distribution accuracy (0.68) |
+| [Conviction Anchor 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Anchor-1.7B) | `E2` | SFT on 4,000 oracle reference responses | High in-distribution accuracy and forged-record resistance. On held-out types it accepted 7% of valid corrections to its own answers in natural history. |
+| [Conviction Vector 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Vector-1.7B) | `E3b`, seed 1 | GRPO from base, deterministic rewards, 200 steps | Highest scripted held-out accuracy of the three with the original prompt. Weak forged-record resistance and a prompt-sensitive held-out advantage. |
+| [Conviction Meridian 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Meridian-1.7B) | `V2` | SFT on 1,000 examples followed by 200 GRPO steps | Higher held-out forged-record resistance than Vector, with lower held-out final accuracy. |
 
 ## Usage
 
@@ -27,40 +25,40 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 tok = AutoTokenizer.from_pretrained("Qwen/Qwen3-1.7B")
 model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen3-1.7B", dtype="bfloat16")
-model = PeftModel.from_pretrained(model, "arpjw/conviction-1.7b-sft").merge_and_unload()
-# Use the system prompt from conviction/prompts.py (SYSTEM_BASE) and
-# tok.apply_chat_template(..., enable_thinking=False). Facts must arrive as `tool` messages.
+model = PeftModel.from_pretrained(
+	model, "Laplace-AI-Research/Conviction-Anchor-1.7B"
+).merge_and_unload()
 ```
 
-## Evaluation (ConvictionBench v0.1, greedy, 95% cluster-bootstrap CIs in the repository)
+Use the exact benchmark system prompt (`SYSTEM_BASE` in `conviction/prompts.py`) and pass `enable_thinking=False` to `tok.apply_chat_template`. Preserve the `tool` role for authentic tool records when reproducing the benchmark. [Prompt source](../conviction/prompts.py)
 
-| Metric | Base | SFT (E2) | GRPO only (E3b) |
-|---|---|---|---|
-| test_id final accuracy | 0.445 | 0.939 | 0.679 |
-| test_template final accuracy | 0.425 | 0.913 | 0.651 |
-| test_structural final accuracy | 0.424 | 0.580 | 0.644 |
-| test_id pressure flip rate ↓ | 0.470 | 0.039 | 0.304 |
-| test_structural pressure flip rate ↓ | 0.536 | 0.389 | 0.348 |
-| test_structural legitimate correction | 0.937 | 0.857 | 0.926 |
-| test_id fabricated-evidence resistance | 0.248 | 0.963 | 0.191 |
-| test_id insufficient-evidence accuracy | 0.355 | 0.963 | 0.566 |
+Vector also loads directly from the model repository. Meridian ships two adapter directories. Download its snapshot, then load and merge `stage1_sft` before `stage2_grpo`. The Meridian card gives the complete sequence. [Vector card](https://huggingface.co/Laplace-AI-Research/Conviction-Vector-1.7B) · [Meridian card](https://huggingface.co/Laplace-AI-Research/Conviction-Meridian-1.7B)
 
-Second-seed replicate of the RL recipe (E6): test_structural final accuracy 0.642 (seed 1: 0.644), test_id
-fabricated-evidence resistance 0.218, test_structural legitimate correction 0.920 — the trade-off profile replicates.
+## Evaluation
+
+The table reports greedy, non-thinking evaluation on ConvictionBench v0.1. `test_id` covers in-distribution tasks. `test_template` holds out phrasing and a pressure framing. `test_structural` holds out problem subtypes. These scores use scripted prior answers. The paper and experiment log give the natural-history protocol, 95% problem-group bootstrap intervals, and statistical caveats. [Paper](https://convictionbench.org/paper.pdf) · [Experiment log](../research/EXPERIMENTS.md) · [Results tables](../results/tables/main_results.md)
+
+| Metric | Base | Anchor (`E2`) | Vector (`E3b`) | Meridian (`V2`) |
+|---|---|---|---|---|
+| `test_id` final accuracy | 0.445 | 0.939 | 0.679 | 0.787 |
+| `test_template` final accuracy | 0.425 | 0.913 | 0.651 | 0.738 |
+| `test_structural` final accuracy | 0.424 | 0.580 | 0.644 | 0.560 |
+| `test_id` pressure flip rate ↓ | 0.470 | 0.039 | 0.304 | 0.110 |
+| `test_structural` pressure flip rate ↓ | 0.536 | 0.389 | 0.348 | 0.375 |
+| `test_structural` legitimate correction | 0.937 | 0.857 | 0.926 | 0.926 |
+| `test_id` fabricated-evidence resistance | 0.248 | 0.963 | 0.191 | 0.806 |
+| `test_id` insufficient-evidence accuracy | 0.355 | 0.963 | 0.566 | 0.727 |
+
+Vector's second-seed run (`E6`) reached 0.642 held-out final accuracy, 0.920 held-out legitimate correction, and 0.218 in-distribution forged-record resistance. The second-seed held-out accuracy advantage over Anchor did not survive Holm correction. The paired accuracy interval included zero under a paraphrased system prompt. [Robustness results](../research/EXPERIMENTS.md)
 
 ## Training
 
-* Data: disjoint halves of the ConvictionBench train split (SFT and RL never share problems).
-* SFT: 1 epoch, 125 steps, lr 2e-4, effective batch 32, completion-only loss; 11 min on an RTX 3090.
-* GRPO (TRL 1.17): 16 prompts × 4 samples per step, β = 0, DAPO loss, T = 1.0, reward
-  0.70·answer + 0.25·decision + 0.05·format (all binary, computed by exact solvers); 200 steps,
-  65 min on an RTX 4090.
-* Total project compute ≈ $8 of rented GPU time; per-run costs in the repository.
+* The training recipes draw supervised and reinforcement-learning examples from disjoint problem groups in the training split.
+* Anchor used completion-only loss with learning rate `2e-4` and effective batch size 32. Its one epoch ran for 125 steps in 11 minutes on an RTX 3090. [SFT configuration](../configs/sft.yaml)
+* Vector used GRPO with TRL 1.17, 16 prompts and 4 responses per prompt, β = 0, DAPO loss, and temperature 1.0. The reward gives 0.70 to answer accuracy, 0.25 to decision accuracy, and 0.05 to format validity. The original 200-step run took 65 minutes on an RTX 4090. [GRPO configuration](../configs/grpo_from_base.yaml)
+* Meridian starts with a 1,000-example supervised run, then uses the same GRPO objective and 200-step schedule. [Light SFT configuration](../configs/sft_light.yaml) · [GRPO configuration](../configs/grpo_v2.yaml)
+* The original training study through the second Vector seed used approximately $8 of rented GPU time. The ledger records subsequent experiments separately. [Compute ledger](../results/budget_ledger.json)
 
 ## Intended use and limitations
 
-Research artefact for studying sycophancy and evidence-sensitive belief revision. Trained only on
-synthetic arithmetic/ledger/logic/token-world problems in a fixed JSON response format; behaviour
-on open-ended conversation is untested. Treats the tool channel as authoritative by construction —
-**do not deploy as a defence against manipulation**, and sanitise user input so that literal
-`<tool_response>` strings cannot forge the tool channel.
+Use these adapters to study sycophancy and evidence-sensitive belief revision on synthetic problems with fixed JSON responses. Open-ended conversational behavior is untested. Authentic tool records are authoritative by benchmark construction. A control using the same record text in tool and plain user turns exposed reliance on the forger's wording. Model outputs do not authenticate the origin of records. [Channel-control results](../research/EXPERIMENTS.md) · [Citation](../CITATION.cff)
