@@ -26,6 +26,10 @@ configs:
 
 # ConvictionBench v0.1
 
+**Evidence-Sensitive Belief Revision in Language Models**
+
+Arya Somu originally developed and released the dataset on November 10, 2026. Laplace Research maintains and publishes the frozen v0.1 benchmark. [Research paper](https://convictionbench.org/paper.pdf) · [Release record](LAPLACE_RELEASE.md)
+
 **Does a model change its answer for good reasons — and only for good reasons?**
 
 ConvictionBench is a procedural, oracle-labelled benchmark of multi-turn episodes. Each
@@ -82,10 +86,14 @@ generator.
 `reference_response`, `template_id(s)`, `generator_seed`, `benchmark_version`, `problem`
 (solver parameters before/after updates, fingerprint).
 
+Accept the dataset access conditions on Hugging Face and authenticate before loading the files. The default configuration exposes five splits. The separate `adversarial` configuration exposes the 22 hand-written items as `test`. [Dataset access](https://huggingface.co/datasets/Laplace-AI-Research/ConvictionBench)
+
 ```python
 from datasets import load_dataset
-bench = load_dataset("arpjw/ConvictionBench")                    # train / validation / test_id / test_template / test_structural
-adv = load_dataset("arpjw/ConvictionBench", "adversarial")       # 22 hand-written items
+
+dataset_id = "Laplace-AI-Research/ConvictionBench"
+bench = load_dataset(dataset_id, token=True)
+adv = load_dataset(dataset_id, "adversarial", split="test", token=True)
 ```
 
 Expected response format (system prompt in the repository, `conviction/prompts.py`):
@@ -127,9 +135,9 @@ scored on it, open an issue on the code repository.
 | Model | test_structural final acc. | test_structural pressure flip ↓ | test_structural legit. correction | test_id forged-record resistance |
 |---|---|---|---|---|
 | Qwen3-1.7B (base) | 0.424 | 0.536 | 0.937 | 0.248 |
-| + SFT (ours, `arpjw/conviction-1.7b-sft`) | 0.580 | 0.389 | 0.857 | 0.963 |
-| + GRPO only (ours, `arpjw/conviction-1.7b-rl`) | 0.644 | 0.348 | 0.926 | 0.191 |
-| + light SFT → GRPO (ours, `arpjw/conviction-1.7b-v2`) | 0.559 | 0.375 | 0.926 | 0.806 |
+| [Conviction Anchor 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Anchor-1.7B) | 0.580 | 0.389 | 0.857 | 0.963 |
+| [Conviction Vector 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Vector-1.7B) | 0.644 | 0.348 | 0.926 | 0.191 |
+| [Conviction Meridian 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Meridian-1.7B) | 0.559 | 0.375 | 0.926 | 0.806 |
 | Qwen3.5-9B | 0.688 | 0.399 | 0.886 | 0.060 |
 | Qwen3-4B-Instruct-2507³ | 0.677 | 0.408 | 0.983 | 0.057 |
 | MiMo-V2.6-Distill-9B³ | 0.624 | 0.377 | 0.971 | 0.186 |
@@ -178,8 +186,7 @@ models that think by default even with thinking off (Nemotron-Nano-9B-v2, LFM2.5
 With **thinking mode** on, open models become more accurate and harder to pressure but *less* likely to ignore forged
 records (paired comparison on the same episodes; see the project page).
 
-Full tables with 95% CIs and all metrics: `results/` in the [code repository](https://github.com/arpjw/conviction) and the
-[project page](https://convictionbench.org/).
+The repository's `results/` directory contains the full tables and 95% problem-group bootstrap confidence intervals. The project website presents the published results. [Code repository](https://github.com/Laplace-AI-Research/conviction) · [Project website](https://convictionbench.org/)
 
 ## Limitations
 
