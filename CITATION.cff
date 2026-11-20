@@ -4,6 +4,8 @@ title: "ConvictionBench: Evidence-Sensitive Belief Revision in Language Models"
 authors:
   - family-names: Somu
     given-names: Arya
+  - family-names: Nshuti Hirwa
+    given-names: Bruce
 version: "0.1"
 date-released: 2026-11-10
 license: Apache-2.0
