@@ -1,4 +1,4 @@
-# ConvictionBench paper (arXiv preprint)
+# ConvictionBench paper (Laplace Research edition)
 
 ```bash
 uv run --extra analysis python paper/scripts/make_assets.py   # figures, tables, numbers.tex from results/
@@ -15,6 +15,6 @@ rewards (0.89 / 0.66 / 0.53 / 0.20), the pre-freeze response-format A/B (0.19 â†
 - [x] Human validation stated as a limitation (planned for v0.2).
 - [x] All bib entries verified online (2026-11-17).
 - [x] GPT API-track results kept as Appendix G.
-- [ ] After every rebuild, copy `main.pdf` to `~/dev/convictionbench/paper.pdf` and `~/dev/arpjw.github.io/papers/convictionbench.pdf`.
+- [ ] Sync the release PDF to `convictionbench/paper.pdf` in the Laplace website repository, `paper.pdf` in the benchmark website repository, and `papers/convictionbench.pdf` in the personal website repository. Keep the existing `paper-laplace.pdf` and `convictionbench-laplace.pdf` URLs in sync.
 - [ ] arXiv: build with `tectonic -X compile --keep-intermediates main.tex` to get `main.bbl`, then upload `main.tex`,
       `main.bbl`, `tables/`, `figures/`; pick categories (cs.CL primary, cs.LG).

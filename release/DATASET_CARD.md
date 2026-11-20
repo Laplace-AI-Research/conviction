@@ -204,11 +204,14 @@ The repository's `results/` directory contains the full tables and 95% problem-g
 ## Citation
 
 ```bibtex
-@misc{somu2026convictionbench,
-  title  = {ConvictionBench: Evidence-Sensitive Belief Revision in Language Models},
-  author = {Somu, Arya},
-  year   = {2026},
-  note   = {v0.1},
-  url    = {https://convictionbench.org/}
+@techreport{somu2026convictionbench-laplace,
+  title       = {{ConvictionBench}: Evidence-Sensitive Belief Revision in Language Models},
+  author      = {Somu, Arya and Nshuti Hirwa, Bruce},
+  institution = {Laplace Research},
+  year        = {2026},
+  month       = nov,
+  type        = {Preprint},
+  note        = {ConvictionBench v0.1, Laplace Research edition},
+  url         = {https://laplaceresearch.org/convictionbench/paper.pdf}
 }
 ```

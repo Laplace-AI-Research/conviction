@@ -12,7 +12,7 @@ Arya Somu originally released the frozen ConvictionBench v0.1 benchmark on Novem
 | Conviction Vector 1.7B | [Model card](https://huggingface.co/Laplace-AI-Research/Conviction-Vector-1.7B) | `arpjw/conviction-1.7b-rl`, `E3b` seed 1 |
 | Conviction Meridian 1.7B | [Model card](https://huggingface.co/Laplace-AI-Research/Conviction-Meridian-1.7B) | `arpjw/conviction-1.7b-v2`, `V2` |
 | Hugging Face collection | [Conviction — Models & Benchmark](https://huggingface.co/collections/Laplace-AI-Research/conviction-models-and-benchmark-6aff86d2ffe859af7052eafd) | |
-| Research preprint | [ConvictionBench: Evidence-Sensitive Belief Revision in Language Models](https://convictionbench.org/paper.pdf) | Arya Somu, November 2026 |
+| Laplace Research paper | [ConvictionBench: Evidence-Sensitive Belief Revision in Language Models](https://laplaceresearch.org/convictionbench/paper.pdf) | Arya Somu and Bruce Nshuti Hirwa, November 2026 |
 
 Use the canonical IDs in new clones, scripts, and citations. The original IDs identify the same published artifacts in dated records, and the experiment names are how the results identify each run. For code and frozen scientific files at the start of the migration, pin Git commit `7a7c6255b9ca0ab32d2b7c03543b119719417196`. The migration record lists the original Hub revisions and platform redirect checks. [Migration record](../docs/releases/CONVICTION_LAPLACE_MIGRATION.md) · [Original Git snapshot](https://github.com/Laplace-AI-Research/conviction/tree/7a7c6255b9ca0ab32d2b7c03543b119719417196)
 
@@ -27,4 +27,4 @@ The results use Qwen3-1.7B LoRA adapters. See the paper and experiment log for t
 
 ## Reproducibility and licensing
 
-The release uses the original v0.1 generator configuration, frozen splits, oracle labels, and public research record. The code and LoRA adapters use Apache-2.0. The data uses CC-BY-4.0 and the Hugging Face dataset retains its access conditions. Cite the original preprint and refer to the frozen hashes when reproducing results. [Citation](../CITATION.cff) · [Generator hashes](../data/conviction_bench/v0.1/FROZEN.txt) · [Released file hashes](RELEASE_HASHES.txt)
+The release uses the original v0.1 generator configuration, frozen splits, oracle labels, and public research record. The code and LoRA adapters use Apache-2.0. The data uses CC-BY-4.0 and the Hugging Face dataset retains its access conditions. Cite the Laplace Research edition and refer to the frozen hashes when reproducing results. [Citation](../CITATION.cff) · [Generator hashes](../data/conviction_bench/v0.1/FROZEN.txt) · [Released file hashes](RELEASE_HASHES.txt)

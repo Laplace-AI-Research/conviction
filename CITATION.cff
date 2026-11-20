@@ -9,3 +9,17 @@ date-released: 2026-11-10
 license: Apache-2.0
 url: "https://convictionbench.org/"
 repository-code: "https://github.com/Laplace-AI-Research/conviction"
+preferred-citation:
+  type: report
+  title: "ConvictionBench: Evidence-Sensitive Belief Revision in Language Models"
+  authors:
+    - family-names: Somu
+      given-names: Arya
+    - family-names: Nshuti Hirwa
+      given-names: Bruce
+  institution:
+    name: Laplace Research
+  year: 2026
+  month: 11
+  version: "0.1"
+  url: "https://laplaceresearch.org/convictionbench/paper.pdf"

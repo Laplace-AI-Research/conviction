@@ -30,7 +30,7 @@ All four repositories were public. The dataset used an automatic access gate, wi
 
 A native move preserves the revision used by existing clients. Use canonical repository IDs for new work and retain the original identifiers when interpreting experiment outputs and archived paper tables. Dataset access remains subject to the Hub gate. Compare the file path, size, Git blob ID, and LFS digest before and after a move, and repeat the comparison excluding `README.md` after card publication. The Hub manages the derived Parquet ref separately from the frozen files in Git.
 
-The [paper](https://convictionbench.org/paper.pdf) remains the original research record. Website publication is independent of the repository and Hub moves.
+The [Laplace Research edition](https://laplaceresearch.org/convictionbench/paper.pdf) is the current paper. It documents the same frozen v0.1 benchmark and experiments.
 
 ## Transfer verification
 

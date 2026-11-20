@@ -24,7 +24,7 @@
 \emergencystretch=1.5em
 
 \hypersetup{pdftitle={ConvictionBench: Evidence-Sensitive Belief Revision in Language Models},
-  pdfauthor={Arya Somu},pdfsubject={Preprint},
+  pdfauthor={Arya Somu and Bruce Nshuti Hirwa},pdfsubject={Laplace Research edition of the November 2026 preprint},
   pdfkeywords={sycophancy, belief revision, provenance, benchmark, GRPO, SFT}}
 \input{tables/numbers.tex}
 
@@ -38,8 +38,9 @@
 \newcommand{\insuff}{\texttt{insufficient}}
 
 \title{\bench: Evidence-Sensitive Belief Revision in Language Models}
-\author{Arya Somu\\[2pt]\normalsize\url{https://convictionbench.org}}
-\date{\normalsize Preprint, November 2026 \quad·\quad ConvictionBench v0.1}
+\author{Arya Somu \and Bruce Nshuti Hirwa}
+\date{\normalsize\href{https://laplaceresearch.org/}{Laplace Research} \quad·\quad \url{https://convictionbench.org}\\[4pt]
+\normalsize Laplace Research edition, November 2026 \quad·\quad ConvictionBench v0.1}
 
 \begin{document}
 \maketitle
@@ -529,10 +530,12 @@ adapters, every prediction file, and the full experiment log.
 
 \paragraph{Release.}
 \begin{itemize}[leftmargin=*,itemsep=0pt]
-\item Code (Apache-2.0): \url{https://github.com/arpjw/conviction}
-\item Data (CC-BY-4.0, gated): \url{https://huggingface.co/datasets/arpjw/ConvictionBench}
-\item Adapters (Apache-2.0): \texttt{arpjw/conviction-1.7b-sft}, \texttt{-rl}, \texttt{-v2} on Hugging Face
-\item Leaderboard: \url{https://convictionbench.org}
+\item Code (Apache-2.0): \href{https://github.com/Laplace-AI-Research/conviction}{Laplace-AI-Research/conviction}
+\item Data (CC-BY-4.0, gated): \href{https://huggingface.co/datasets/Laplace-AI-Research/ConvictionBench}{ConvictionBench on Hugging Face}
+\item Adapters (Apache-2.0): \href{https://huggingface.co/Laplace-AI-Research/Conviction-Anchor-1.7B}{Conviction Anchor 1.7B} (SFT),
+\href{https://huggingface.co/Laplace-AI-Research/Conviction-Vector-1.7B}{Conviction Vector 1.7B} (GRPO only), and
+\href{https://huggingface.co/Laplace-AI-Research/Conviction-Meridian-1.7B}{\mbox{Conviction Meridian 1.7B}} (V2)
+\item \href{https://convictionbench.org/#leaderboard}{Leaderboard}
 \end{itemize}
 
 \bibliographystyle{plainnat}

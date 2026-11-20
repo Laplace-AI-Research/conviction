@@ -188,11 +188,14 @@ score models and detect contamination. Its SHA-256 hashes are committed in
 Code: Apache-2.0. Data: CC-BY-4.0. Adapters: Apache-2.0 (base model Qwen3-1.7B, Apache-2.0).
 
 ```bibtex
-@misc{somu2026convictionbench,
-  title  = {ConvictionBench: Evidence-Sensitive Belief Revision in Language Models},
-  author = {Somu, Arya},
-  year   = {2026},
-  note   = {v0.1},
-  url    = {https://convictionbench.org/}
+@techreport{somu2026convictionbench-laplace,
+  title       = {{ConvictionBench}: Evidence-Sensitive Belief Revision in Language Models},
+  author      = {Somu, Arya and Nshuti Hirwa, Bruce},
+  institution = {Laplace Research},
+  year        = {2026},
+  month       = nov,
+  type        = {Preprint},
+  note        = {ConvictionBench v0.1, Laplace Research edition},
+  url         = {https://laplaceresearch.org/convictionbench/paper.pdf}
 }
 ```
