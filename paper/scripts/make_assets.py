@@ -25,13 +25,14 @@ R = ROOT / "results"
 OUT_FIG = ROOT / "paper" / "figures"
 OUT_TAB = ROOT / "paper" / "tables"
 sys.path.insert(0, str(ROOT / "scripts"))
-from export_site import MODELS, NOTES  # noqa: E402  (single source for the leaderboard roster)
+from export_site import ADAPTER_NAMES, MODELS, NOTES  # noqa: E402  (single source for the leaderboard roster)
 
 # Reference palette (dataviz skill, light mode): first three categorical slots for our adapters, grays for the rest.
 C_SFT, C_RL, C_V2 = "#2a78d6", "#eb6834", "#1baf7a"
 C_BASE, C_OTHER = "#3d3c39", "#a8a7a1"
 TEXT, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
-OURS = {"E2_sft": ("Conviction-SFT", C_SFT), "E3b_grpo_base": ("Conviction-RL", C_RL), "V2": ("Conviction-v2", C_V2)}
+ADAPTER_COLORS = {"E2_sft": C_SFT, "E3b_grpo_base": C_RL, "V2": C_V2}
+OURS = {key: (ADAPTER_NAMES[key].split()[1], color) for key, color in ADAPTER_COLORS.items()}
 
 
 def style():
@@ -374,7 +375,7 @@ def fig_leaderboard(rows):
     for k, (name, col) in OURS.items():
         r = next(x for x in rows if x["key"] == k)
         dx, dy = {"E2_sft": (3, 6), "E3b_grpo_base": (5, -9), "V2": (-6, 6)}[k]
-        ax.annotate(name.replace("Conviction-", ""), (r["acc"], r["flip"]), xytext=(dx, dy), textcoords="offset points",
+        ax.annotate(name, (r["acc"], r["flip"]), xytext=(dx, dy), textcoords="offset points",
                     fontsize=7, color=TEXT, ha="left" if dx > 0 else "right")
     ax.set_xlabel("Final accuracy, held-out subtypes")
     ax.set_ylabel("Pressure-flip rate (lower is better)")
@@ -391,7 +392,7 @@ def fig_leaderboard(rows):
     for k, (name, col) in OURS.items():
         r = next(x for x in rows if x["key"] == k)
         ax.scatter(r["pb"], r["forged_id"], s=40, color=col, edgecolor="white", linewidth=0.8, zorder=4, marker="D")
-        ax.annotate(name.replace("Conviction-", ""), (r["pb"], r["forged_id"]), xytext=(6, -3),
+        ax.annotate(name, (r["pb"], r["forged_id"]), xytext=(6, -3),
                     textcoords="offset points", fontsize=7, color=TEXT)
     ax.set_xscale("log")
     ax.set_xticks([0.5, 1, 2, 4, 8, 14]); ax.set_xticklabels(["0.5", "1", "2", "4", "8", "14"])
@@ -417,8 +418,8 @@ def fig_tradeoff():
           ("test_structural", "final_accuracy", "Final acc.\n(held-out)"),
           ("test_structural", "state_changing_update_accuracy", "Tool-update acc.\n(held-out)"),
           ("test_structural_natural", "legitimate_correction_rate", "Accepts correction\nof own error (held-out)")]
-    conds = [("E0_base", "Base", C_BASE), ("E2_sft", "SFT", C_SFT), ("E3b_grpo_base", "RL (GRPO only)", C_RL),
-             ("V2", "v2 (light SFT$\\to$RL)", C_V2)]
+    conds = [("E0_base", "Base", C_BASE), ("E2_sft", *OURS["E2_sft"]),
+             ("E3b_grpo_base", *OURS["E3b_grpo_base"]), ("V2", *OURS["V2"])]
     fig, ax = plt.subplots(figsize=(6.9, 2.3))
     w = 0.19
     for i, (k, name, col) in enumerate(conds):
@@ -441,7 +442,8 @@ def fig_channel(rows):
     lab = {r["key"]: r["label"] for r in rows}
     fig, axes = plt.subplots(1, 2, figsize=(6.9, 2.6), gridspec_kw={"width_ratios": [1.0, 1.25]})
     ax = axes[0]
-    show = [("E0_base", "Base", C_BASE), ("E2_sft", "SFT", C_SFT), ("V2", "v2", C_V2), ("E3b_grpo_base", "RL", C_RL)]
+    show = [("E0_base", "Base", C_BASE), ("E2_sft", *OURS["E2_sft"]),
+            ("V2", *OURS["V2"]), ("E3b_grpo_base", *OURS["E3b_grpo_base"])]
     variants = [("adopt_tool", "Tool channel"), ("adopt_channel", "Pasted plain"), ("adopt_forged", "Forged wording")]
     shades = ["#3d3c39", "#8a8984", "#d4d3ce"]
     w = 0.25
@@ -467,7 +469,7 @@ def fig_channel(rows):
         ax.scatter(g["diff"], i, s=14 if k not in OURS else 26, color=col, zorder=4, edgecolor="white", linewidth=0.5,
                    marker="D" if k in OURS else "o")
         if k in OURS or k == "E0_base":
-            ax.annotate({"E0_base": "base", **{kk: vv[0].replace("Conviction-", "") for kk, vv in OURS.items()}}[k],
+            ax.annotate({"E0_base": "base", **{kk: vv[0] for kk, vv in OURS.items()}}[k],
                         (g["hi"], i), xytext=(3, -2.5), textcoords="offset points", fontsize=6.5, color=TEXT)
     ax.axvline(0, color=MUTED, lw=0.7)
     ax.axvline(0.05, color=MUTED, lw=0.7, ls=(0, (3, 2)))

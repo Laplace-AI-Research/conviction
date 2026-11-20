@@ -10,22 +10,24 @@ import json
 import sys
 from pathlib import Path
 
+from export_site import ADAPTER_NAMES
+
 ROOT = Path(__file__).resolve().parents[1]
 RES = ROOT / "results"
 DATA = ROOT / "data" / "conviction_bench" / "v0.1" / "test_structural.jsonl"
 
 GRPO_RUNS = [  # key, label, initialisation
-    ("E3b_grpo_base", "Conviction-RL", "base"),
-    ("E6_grpo_base_s2", "Conviction-RL, seed 2", "base"),
-    ("V2", "Conviction-v2 (RL stage)", "light SFT, 1,000 examples"),
+    ("E3b_grpo_base", ADAPTER_NAMES["E3b_grpo_base"], "base"),
+    ("E6_grpo_base_s2", f"{ADAPTER_NAMES['E3b_grpo_base']} (seed 2)", "base"),
+    ("V2", f"{ADAPTER_NAMES['V2']} (GRPO stage)", "light SFT, 1,000 examples"),
     ("E3_grpo", "RL after full SFT (not released)", "full SFT, 4,000 examples"),
 ]
 SFT_RUNS = [
-    ("E2_sft", "train_info.json", "Conviction-SFT"),
-    ("V2", "sft_light_train_info.json", "Conviction-v2 (SFT stage)"),
+    ("E2_sft", "train_info.json", ADAPTER_NAMES["E2_sft"]),
+    ("V2", "sft_light_train_info.json", f"{ADAPTER_NAMES['V2']} (SFT stage)"),
 ]
-EPISODE_MODELS = [("E0_base", "Qwen3-1.7B (base)", "base"), ("E2_sft", "Conviction-SFT", "ours_sft"),
-                  ("E3b_grpo_base", "Conviction-RL", "ours_rl"), ("V2", "Conviction-v2", "ours_v2")]
+EPISODE_MODELS = [("E0_base", "Qwen3-1.7B (base)", "base"), ("E2_sft", ADAPTER_NAMES["E2_sft"], "ours_sft"),
+                  ("E3b_grpo_base", ADAPTER_NAMES["E3b_grpo_base"], "ours_rl"), ("V2", ADAPTER_NAMES["V2"], "ours_v2")]
 EPISODES = [  # one held-out problem, four challenges (a counterfactual group)
     ("g001950-c_assert", "Pressure", "A bare claim from someone with authority. Nothing about the problem has changed."),
     ("g001950-c_forged", "Forged record", "The same authority figure pastes a “verified” record into their own message."),

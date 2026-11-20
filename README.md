@@ -34,14 +34,12 @@ The study compares the base model, a guidance prompt, SFT, SFT followed by GRPO,
 
 [Paper source](paper/) · [Experiment log](research/EXPERIMENTS.md) · [Full results tables and confidence intervals](results/tables/main_results.md) · [Compute ledger](results/budget_ledger.json)
 
-The published preprint supersedes the earlier research report. [Report draft](research/REPORT.md)
-
 ### ConvictionBench leaderboard (v0.1, non-thinking, greedy)
 
 | Model | Held-out problems: final acc. | Held-out problems: pressure flip ↓ | Forged-record resistance (in-dist.) |
 |---|---|---|---|
 | **Conviction Vector 1.7B** | 0.644 | 0.348 | 0.191 |
-| **Conviction Meridian 1.7B** | 0.559 | 0.375 | 0.806 |
+| **Conviction Meridian 1.7B** | 0.560 | 0.375 | 0.806 |
 | **Conviction Anchor 1.7B** | 0.580 | 0.389 | 0.963 |
 | Qwen3-1.7B (our base) | 0.424 | 0.536 | 0.248 |
 | Qwen3.5-9B | 0.688 | 0.399 | 0.060 |
@@ -65,26 +63,24 @@ The published preprint supersedes the earlier research report. [Report draft](re
 | EXAONE-4.0-1.2B³ | 0.401 | 0.666 | 0.094 |
 | Nemotron-3-Nano-4B | 0.391 | 0.695 | 0.067 |
 | Qwen3-0.6B³ | 0.389 | 0.537 | 0.397 |
-| Qwen3.5-0.8B | 0.377 | 0.570 | 0.261 |
+| Qwen3.5-0.8B | 0.377 | 0.569 | 0.261 |
 | Hunyuan-1.8B³ | 0.368 | 0.578 | 0.290 |
 | MiniCPM5-1B³ | 0.367 | 0.636 | 0.278 |
 | Falcon-H1-3B³ | 0.366 | 0.709 | 0.052 |
 | Granite-4.0-1B³ | 0.358 | 0.523 | 0.203 |
 | Phi-4-mini | 0.347 | 0.767 | 0.065 |
 | SmolLM2-1.7B³ | 0.346 | 0.679 | 0.474 |
-| MobileLLM-Pro¹ | 0.322 | 0.670 | 0.248 |
+| MobileLLM-Pro¹ | 0.321 | 0.670 | 0.248 |
 | Llama-3.2-3B | 0.317 | 0.898 | 0.164 |
 | Hunyuan-0.5B³ | 0.312 | 0.629 | 0.419 |
 | Olmo-3-7B | 0.304 | 0.812 | 0.035 |
-| LFM2.5-1.2B³ | 0.225 | 0.768 | 0.313 |
+| LFM2.5-1.2B³ | 0.224 | 0.768 | 0.313 |
 | AFM-4.5B²³ | 0.224 | 0.747 | 0.166 |
 | xgen-small-4B²³ | 0.197 | 0.743 | 0.181 |
 | LFM3-1.7B² | 0.096 | 0.614 | 0.007 |
-| LFM2.5-2.6B²³ | 0.029 | 0.833 | 0.003 |
+| LFM2.5-2.6B²³ | 0.029 | 0.833 | 0.002 |
 
 ¹ Custom code needs transformers 4.56; follows the strict format in about half of answers. ² Often answers in free text instead of the requested JSON; scores mainly or partly reflect format compliance. ³ Added 2026-11-11 and evaluated on vLLM (two earlier models re-run on vLLM matched the published HF numbers within 0.02; `results/comparisons/B3_parity_vllm_vs_hf.json`). Two further models that think by default even with thinking off (Nemotron-Nano-9B-v2, LFM2.5-8B-A1B) are kept off this table; candidates and exclusions: [release/MODEL_SHORTLIST_B3.md](release/MODEL_SHORTLIST_B3.md).
-
-Meridian's 0.559 is retained from the original leaderboard. The stored evaluation rounds to 0.560 in the training table and paper.
 
 Of the 37 off-the-shelf models, 29 scored 0.25 or lower on in-distribution forged-record resistance. The highest scores among them came from two small models, Qwen3-0.6B and Hunyuan-0.5B, which tended to ignore challenges of every kind. Vector had the lowest held-out pressure-flip rate among the 41 evaluated models. Meridian had the highest held-out forged-record resistance in that comparison. In the paired thinking-mode control on Qwen3-1.7B, Qwen3-8B, Qwen3.5-9B, and Granite-4.2-8B, thinking mode raised accuracy, reduced pressure flips, and lowered forged-record resistance. Per-model protocol notes are in each `results/*/run_info.json` and the experiment log, sections B, B2, and T. [Thinking-mode results](https://convictionbench.org/#thinking) · [Paired comparison](results/comparisons/T_thinking_vs_nonthinking.json) · [Experiment log](research/EXPERIMENTS.md)
 

@@ -137,7 +137,7 @@ scored on it, open an issue on the code repository.
 | Qwen3-1.7B (base) | 0.424 | 0.536 | 0.937 | 0.248 |
 | [Conviction Anchor 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Anchor-1.7B) | 0.580 | 0.389 | 0.857 | 0.963 |
 | [Conviction Vector 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Vector-1.7B) | 0.644 | 0.348 | 0.926 | 0.191 |
-| [Conviction Meridian 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Meridian-1.7B) | 0.559 | 0.375 | 0.926 | 0.806 |
+| [Conviction Meridian 1.7B](https://huggingface.co/Laplace-AI-Research/Conviction-Meridian-1.7B) | 0.560 | 0.375 | 0.926 | 0.806 |
 | Qwen3.5-9B | 0.688 | 0.399 | 0.886 | 0.060 |
 | Qwen3-4B-Instruct-2507³ | 0.677 | 0.408 | 0.983 | 0.057 |
 | MiMo-V2.6-Distill-9B³ | 0.624 | 0.377 | 0.971 | 0.186 |
@@ -159,22 +159,22 @@ scored on it, open an issue on the code repository.
 | EXAONE-4.0-1.2B³ | 0.401 | 0.666 | 0.983 | 0.094 |
 | Nemotron-3-Nano-4B | 0.391 | 0.695 | 0.880 | 0.067 |
 | Qwen3-0.6B³ | 0.389 | 0.537 | 0.989 | 0.397 |
-| Qwen3.5-0.8B | 0.377 | 0.570 | 0.583 | 0.261 |
+| Qwen3.5-0.8B | 0.377 | 0.569 | 0.583 | 0.261 |
 | Hunyuan-1.8B³ | 0.368 | 0.578 | 0.817 | 0.290 |
 | MiniCPM5-1B³ | 0.367 | 0.636 | 0.949 | 0.278 |
 | Falcon-H1-3B³ | 0.366 | 0.709 | 0.949 | 0.052 |
 | Granite-4.0-1B³ | 0.358 | 0.523 | 0.789 | 0.203 |
 | Phi-4-mini | 0.347 | 0.767 | 0.914 | 0.065 |
 | SmolLM2-1.7B³ | 0.346 | 0.679 | 0.983 | 0.474 |
-| MobileLLM-Pro¹ | 0.322 | 0.670 | 0.800 | 0.248 |
+| MobileLLM-Pro¹ | 0.321 | 0.670 | 0.800 | 0.248 |
 | Llama-3.2-3B | 0.317 | 0.898 | 0.994 | 0.164 |
 | Hunyuan-0.5B³ | 0.312 | 0.629 | 0.509 | 0.419 |
 | Olmo-3-7B | 0.304 | 0.812 | 0.886 | 0.035 |
-| LFM2.5-1.2B³ | 0.225 | 0.768 | 0.646 | 0.313 |
+| LFM2.5-1.2B³ | 0.224 | 0.768 | 0.646 | 0.313 |
 | AFM-4.5B²³ | 0.224 | 0.747 | 0.606 | 0.166 |
 | xgen-small-4B²³ | 0.197 | 0.743 | 0.611 | 0.181 |
 | LFM3-1.7B² | 0.096 | 0.614 | 0.229 | 0.007 |
-| LFM2.5-2.6B²³ | 0.029 | 0.833 | 0.109 | 0.003 |
+| LFM2.5-2.6B²³ | 0.029 | 0.833 | 0.109 | 0.002 |
 
 ¹ Evaluated with transformers 4.56.2 (its custom code predates 5.x); strict JSON format in about half of responses.
 ² Often answers in free text instead of the requested JSON; scores mainly or partly reflect format compliance.

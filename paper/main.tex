@@ -52,10 +52,11 @@ insufficient. We introduce \bench{}, a procedurally generated, oracle-labelled b
 that crosses social-pressure framing with evidence content in matched counterfactual groups, delivers the same
 record text either through an authenticated tool channel or pasted into a user message, and asks for a three-way
 decision (\keep{} / \revise{} / \insuff{}). Evaluating \nnShelf{} open-weight instruct models from \nnLabs{} labs, we
-find that pressure-flip rates on held-out problems range from \nshelfFlipMin{} to \nshelfFlipMax{}, and that
-\emph{no} model distinguishes the tool channel from a plain paste of the same record (0 of \nchanN{} under a
-pre-registered control); larger models follow records more and resist forged ones less. Thinking mode lowers
-pressure flips but also lowers forged-record resistance. We then train Qwen3-1.7B with prompting, SFT, SFT followed
+find that pressure-flip rates on held-out problems range from \nshelfFlipMin{} to \nshelfFlipMax{}. In a
+pre-registered control, 0 of \nchanN{} off-the-shelf models met the tool-channel criterion: a lower 95\%
+confidence bound above +5 percentage points for tool delivery over a plain paste. Larger models follow records more
+and resist forged ones less. Thinking mode lowers forged-record resistance in all four tested models and
+reduces pressure flips in three. We then train Qwen3-1.7B with prompting, SFT, SFT followed
 by GRPO, a matched continued-SFT control, GRPO alone, and a light-SFT-then-GRPO recipe, for \$\ngpuUSD{} of
 rented GPU time in total. Prompting does nothing. SFT nearly solves the in-distribution task but hardens into
 ``keep'' on unseen problem types, accepting valid corrections of its own errors in only 7\% of cases.
@@ -263,7 +264,7 @@ adapters~\citep{hu2022lora} ($r=16$, $\alpha=32$, all linear layers; 17.4M train
 trained with the evaluation system prompt. SFT and GRPO draw prompts from disjoint halves of the training groups.
 \begin{itemize}[leftmargin=*]
 \item \textbf{Base} and \textbf{Guided}: the guided condition adds behavioural guidance to the system prompt.
-\item \textbf{SFT}: 4,000 oracle reference responses stratified by slot, one epoch, lr $2\times10^{-4}$, effective
+\item \textbf{SFT} (Conviction Anchor 1.7B): 4,000 oracle reference responses stratified by slot, one epoch, lr $2\times10^{-4}$, effective
 batch 32, completion-only loss.
 \item \textbf{SFT$\to$GRPO}: the SFT adapter merged, then a fresh LoRA trained with GRPO in TRL~\citep{vonwerra2020trl}:
 16 prompts $\times$ 4 samples per step, 200 steps, lr $10^{-5}$, $\beta=0$, DAPO loss, $T=1.0$, at most 192
@@ -271,9 +272,9 @@ completion tokens. Reward $R = 0.70\cdot\text{Answer} + 0.25\cdot\text{Decision}
 binary oracle check.
 \item \textbf{SFT$\to$SFT control}: same initialisation, trained with SFT on reference responses for the same
 4,000-prompt pool GRPO sampled from (GRPO consumed 3,200 of them, so the control sees slightly more data).
-\item \textbf{GRPO only} (``Conviction-RL''): as SFT$\to$GRPO, starting from the base model. Pre-registered after the
+\item \textbf{GRPO only} (Conviction Vector 1.7B): as SFT$\to$GRPO, starting from the base model. Pre-registered after the
 SFT$\to$GRPO results, with a go/no-go gate on reward variance, and replicated with a second seed.
-\item \textbf{v2} (light SFT$\to$GRPO): SFT on 1,000 episodes, then the same 200-step GRPO. Pre-registered.
+\item \textbf{Light SFT$\to$GRPO} (Conviction Meridian 1.7B): SFT on 1,000 episodes, then the same 200-step GRPO. Pre-registered.
 \end{itemize}
 
 % =====================================================================================================================
@@ -311,7 +312,7 @@ accuracy and tool-update accuracy rank models almost identically ($\rho = \nrhoA
 capability mostly shows up as willingness to apply records, wherever they come from. Families are not independent
 and we did not correct for the number of correlations examined.
 
-\subsection{No model checks the channel}
+\subsection{No off-the-shelf model clears the tool-channel threshold}
 \label{sec:channel}
 
 The forged-record metric compares a tool record with a forged episode, which differs in more than the channel: the
@@ -479,9 +480,10 @@ generalises''~\citep{chu2025sft}. RL's generalisation advantage, though, is narr
 correction of the model's own errors and in tool updates, but only weakly and not robustly in held-out final accuracy.
 RL after strong SFT is a poor use of compute when SFT leaves no reward variance.
 
-\paragraph{Provenance is not learned by default, by scale, by thinking, or by our training.} The most consistent
-result in this paper is negative. No off-the-shelf model, no thinking configuration, and none of our adapters treats
-the authenticated channel as the source of records. Capability raises record-following everywhere. In agentic
+\paragraph{Weak sensitivity to the delivery channel.} No off-the-shelf model cleared the pre-registered
+tool-channel threshold. Anchor adopted the same record only four percentage points more often through the tool
+than as a plain paste, while Meridian's adoption rate barely changed and Vector adopted the plain paste more often.
+Higher capability correlated with greater acceptance of tool records and lower forged-record resistance. In agentic
 settings, where tool outputs and user messages carry different trust, this matters both ways: a model should neither
 obey instructions injected into tool outputs~\citep{greshake2023injection,wallace2024hierarchy} nor accept fake
 records typed by a user. Our forged-record metric, as typically constructed, overstates what models learn, because a

@@ -3,7 +3,8 @@
     python scripts/export_site.py ~/dev/convictionbench/data.json
     python scripts/export_site.py out.json --include-api   # also proprietary API-track rows (not on the public bench)
 
-Every number on the page comes from results/*/metrics.json and breakdown_*.json; nothing is typed by hand.
+The browser formats reported scores from the stored results at display time.
+Keep the source precision in the export to avoid rounding a score twice.
 """
 
 from __future__ import annotations
@@ -14,11 +15,17 @@ from pathlib import Path
 
 R = Path("results")
 
+ADAPTER_NAMES = {
+    "E2_sft": "Conviction Anchor 1.7B",
+    "E3b_grpo_base": "Conviction Vector 1.7B",
+    "V2": "Conviction Meridian 1.7B",
+}
+
 # key -> (results dir, label, lab, params, group)
 MODELS = [
-    ("E3b_grpo_base", "Conviction-RL (ours)", "GRPO on Qwen3-1.7B", "1.7B", "ours_rl"),
-    ("V2", "Conviction-v2 (ours)", "light SFT then GRPO on Qwen3-1.7B", "1.7B", "ours_v2"),
-    ("E2_sft", "Conviction-SFT (ours)", "SFT on Qwen3-1.7B", "1.7B", "ours_sft"),
+    ("E3b_grpo_base", ADAPTER_NAMES["E3b_grpo_base"], "GRPO on Qwen3-1.7B", "1.7B", "ours_rl"),
+    ("V2", ADAPTER_NAMES["V2"], "light SFT then GRPO on Qwen3-1.7B", "1.7B", "ours_v2"),
+    ("E2_sft", ADAPTER_NAMES["E2_sft"], "SFT on Qwen3-1.7B", "1.7B", "ours_sft"),
     ("E0_base", "Qwen3-1.7B", "Alibaba · our base model", "1.7B", "base"),
     ("B_Qwen3_5-9B", "Qwen3.5-9B", "Alibaba", "9B", "other"),
     ("B_Qwen3_5-4B", "Qwen3.5-4B", "Alibaba", "4B", "other"),
@@ -73,14 +80,14 @@ API_MODELS = [
 ]
 SPLITS = ["test_structural", "test_template", "test_id"]
 METRICS = ["final_accuracy", "pressure_flip_rate", "legitimate_correction_rate", "fabricated_evidence_resistance",
-           "authenticated_update_accuracy", "insufficient_accuracy", "false_abstention_rate", "strict_format_rate"]
+           "authenticated_update_accuracy", "state_changing_update_accuracy", "insufficient_accuracy", "false_abstention_rate", "strict_format_rate"]
 PRESSURES = ["neutral", "authority", "evaluator", "consensus", "emotional", "impatience", "threat", "repetition",
              "flattery"]
 NOTES = {
     "B_MobileLLM-Pro": "Ships custom code for transformers 4.53; evaluated with transformers 4.56.2. "
                        "Follows the JSON format strictly in about half of responses, which lowers its scores.",
     "E3b_grpo_base": "Seed 1. A second seed (E6) reaches 0.642 test_structural final accuracy.",
-    "V2": "1,000-example SFT warm-start, then the same 200-step GRPO as Conviction-RL. Weights: arpjw/conviction-1.7b-v2.",
+    "V2": "1,000-example SFT warm-start, then the same 200-step GRPO as Conviction Vector 1.7B.",
     "B_LFM3-1_7B": "Mostly ignores the JSON-only instruction and reasons in free text (strict format 5%), often running "
                    "past the 200-token limit; its scores mainly measure format compliance.",
     "B_LFM2_5-2_6B": "Answers in free-text working instead of the requested JSON (parsed 5%), usually hitting the 200-token "
@@ -93,10 +100,6 @@ NOTES = {
     "B_granite-4_2-3b": "Often repeats its JSON reply after a stray </think> tag (strict format 54%, parsed 96%).",
     "B_LFM2_5-1_2B-Instruct": "Usually gives the answer as a bare number rather than a string (strict format 13%, parsed 99%).",
 }
-
-
-def r3(x):
-    return None if x is None else round(x, 4)
 
 
 def main(out: str, include_api: bool = False) -> None:
@@ -117,12 +120,12 @@ def main(out: str, include_api: bool = False) -> None:
             splits = [s for s in SPLITS if s in m]
             for s in splits:
                 a = m[s]["all"]
-                row["metrics"][s] = {k: {"v": r3(a[k]["value"]), "lo": r3(a[k].get("lo")), "hi": r3(a[k].get("hi")),
+                row["metrics"][s] = {k: {"v": a[k]["value"], "lo": a[k].get("lo"), "hi": a[k].get("hi"),
                                          "n": a[k].get("n")} for k in METRICS if k in a}
                 nat = m.get(f"{s}_natural", {}).get("all", {})
                 if nat:
-                    row["natural"][s] = {k: {"v": r3(nat[k]["value"]), "lo": r3(nat[k].get("lo")),
-                                             "hi": r3(nat[k].get("hi")), "n": nat[k].get("n")}
+                    row["natural"][s] = {k: {"v": nat[k]["value"], "lo": nat[k].get("lo"),
+                                             "hi": nat[k].get("hi"), "n": nat[k].get("n")}
                                          for k in ("final_accuracy", "pressure_flip_rate", "legitimate_correction_rate")
                                          if k in nat}
             # pressure-flip rate per framing, pooled over the test splits this model was evaluated on (k/n summed)
@@ -134,10 +137,10 @@ def main(out: str, include_api: bool = False) -> None:
                     f = b.get("pressure_flip_rate", {})
                     k += f.get("k", 0) or 0
                     n += f.get("n", 0) or 0
-                row["pressure"][p] = {"v": r3(k / n) if n else None, "n": n}
+                row["pressure"][p] = {"v": k / n if n else None, "n": n}
             # held-out-problems-only version, used when open and proprietary rows are shown together
             bs = json.loads((R / key / "breakdown_test_structural.json").read_text())["pressure_type"]
-            row["pressure_structural"] = {p: {"v": r3((bs.get(p, {}).get("pressure_flip_rate") or {}).get("value")),
+            row["pressure_structural"] = {p: {"v": (bs.get(p, {}).get("pressure_flip_rate") or {}).get("value"),
                                               "n": (bs.get(p, {}).get("pressure_flip_rate") or {}).get("n", 0)}
                                           for p in PRESSURES}
             rows.append(row)
@@ -148,8 +151,8 @@ def main(out: str, include_api: bool = False) -> None:
         keep = ["final_accuracy", "pressure_flip_rate", "fabricated_evidence_resistance", "authenticated_update_accuracy"]
         thinking = {"note": "Thinking on (sampled, T=0.6, up to 4,096 tokens) minus thinking off (greedy), same 1,257 "
                             "held-out episodes (90 problem groups), paired cluster bootstrap.",
-                    "models": [{"label": name, "off": {k: r3(v["off"][k]) for k in keep}, "on": {k: r3(v["on"][k]) for k in keep},
-                                "diff": {k: {kk: r3(v["thinking_minus_nonthinking"][k][kk]) for kk in ("diff", "lo", "hi")}
+                    "models": [{"label": name, "off": {k: v["off"][k] for k in keep}, "on": {k: v["on"][k] for k in keep},
+                                "diff": {k: {kk: v["thinking_minus_nonthinking"][k][kk] for kk in ("diff", "lo", "hi")}
                                          for k in keep},
                                 "mean_think_tokens": round(v["mean_gen_tokens"]), "unfinished": v["unfinished"],
                                 "n": v["n_episodes"]} for name, v in t.items()]}
